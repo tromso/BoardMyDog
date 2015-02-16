@@ -1,25 +1,28 @@
 package com.tromto.boardmydog;
 
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+
+import java.util.Locale;
 
 
 public class MainActivity extends Activity implements ActionBar.TabListener {
+
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,10 +39,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      */
     ViewPager mViewPager;
 
+    UserFunctions userFunctions;
+    Button btnLogout;
+    private ProgressDialog pDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -74,6 +83,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+       // new CheckLogin().execute();
     }
 
 
@@ -93,6 +103,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            userFunctions = new UserFunctions();
+            userFunctions.logoutUser(getApplicationContext());
+            Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(login);
+            // Closing dashboard screen
+            finish();
+
+            //Toast t = Toast.makeText(this,"settings work ", Toast.LENGTH_LONG);
+            //t.show();
             return true;
         }
 
@@ -194,5 +215,76 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             return rootView;
         }
     }
+/*
+    class CheckLogin extends AsyncTask<String, String, String> {
 
+
+
+
+        String bool;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Loading. Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+
+        @Override
+        protected String doInBackground(String... args) {
+
+            userFunctions = new UserFunctions();
+            if(userFunctions.isUserLoggedIn(getApplicationContext())){
+                bool = "A";
+            }else{
+                bool = "B";
+            }
+            return bool;
+            //
+        }
+
+        protected void onPostExecute(String zoom){
+            pDialog.dismiss();
+
+            MainActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+
+                    if (bool == "A") {
+                        setContentView(R.layout.dashboard);
+                        btnLogout = (Button) findViewById(R.id.btnLogout);
+
+                        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+                            public void onClick(View arg0) {
+                                // TODO Auto-generated method stub
+                                userFunctions.logoutUser(getApplicationContext());
+                                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(login);
+                                // Closing dashboard screen
+                                finish();
+                            }
+                        });
+
+                    }else {
+                        // user is not logged in show login screen
+                        Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(login);
+                        // Closing dashboard screen
+                        finish();
+
+                    }
+
+
+                }
+            });
+        }
+    }
+*/
 }

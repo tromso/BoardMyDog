@@ -75,7 +75,7 @@ public class DemoActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.demoactivity);
         mDisplay = (TextView) findViewById(R.id.display);
 
         context = getApplicationContext();
