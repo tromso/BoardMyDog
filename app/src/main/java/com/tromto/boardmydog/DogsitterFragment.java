@@ -16,6 +16,9 @@ public class DogsitterFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_dogsitter, container, false);
 
+       // Intent i2 = new Intent(getActivity(), DemoActivity.class);
+        //startActivityForResult(i2,100);
+
         return rootView;
     }
 }
