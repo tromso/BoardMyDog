@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -134,13 +135,22 @@ public class RegisterActivity extends Activity {
             RegisterActivity.this.runOnUiThread(new Runnable() {
                 public void run() {
 
-                    // Launch Dashboard Screen
-                    Intent dashboard = new Intent(getApplicationContext(), com.tromto.boardmydog.DashboardActivity.class);
+                    Toast t = Toast.makeText(getApplicationContext(),name+email, Toast.LENGTH_LONG);
+                    t.show();
+                    // Launch reg key Demo Screen
+                    Intent dashboard = new Intent(getApplicationContext(), DemoActivity.class);
                     // Close all views before launching Dashboard
                     dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    dashboard.putExtra("name", name);
+                    dashboard.putExtra("email", email);
                     startActivity(dashboard);
+
+
                     // Close Registration Screen
                     finish();
+
+
+
 
                 }
             });

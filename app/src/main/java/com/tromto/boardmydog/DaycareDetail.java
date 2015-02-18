@@ -3,6 +3,7 @@ package com.tromto.boardmydog;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +30,7 @@ public class DaycareDetail extends Activity {
     String name, address;
     private Button  button1;
     private static String urlNew = "http://smileowl.com/Boardmydog/reservation.php";
+    private static String smileowlurl = "http://smileowl.com/Boardmydog/send_message.php";
     EditText edittext1, edittext2;
 
     private int year;
@@ -37,11 +39,13 @@ public class DaycareDetail extends Activity {
     jParser2 parser = new jParser2();
     String startdate, enddate;
 
+
     static final int DATE_DIALOG_ID_1 = 999;
     static final int DATE_DIALOG_ID_2 = 998;
 
     private TextView checkin, checkout;
-    private Button checkinbutton, checkoutbutton;
+    private Button checkinbutton, checkoutbutton, message;
+    private ProgressDialog pDialog;
 
 
 
@@ -59,6 +63,9 @@ public class DaycareDetail extends Activity {
         checkout = (TextView) findViewById(R.id.tvDate2);
         checkinbutton = (Button) findViewById(R.id.btnChangeDate);
         checkoutbutton = (Button) findViewById(R.id.btnChangeDate2);
+        message = (Button) findViewById(R.id.message);
+        edittext2 = (EditText)findViewById(R.id.edittext2);
+
 
         // Get current date by calender
 
@@ -116,6 +123,18 @@ public class DaycareDetail extends Activity {
                 enddate = checkout.getText().toString();
 
                 new AddDaReservation().execute();
+            }
+        });
+        message.setOnClickListener(new View.OnClickListener() {
+            private boolean handledClick = false;
+            @Override
+            public void onClick(View view) {
+
+                if (!handledClick) {
+                    handledClick = true;
+
+                    new AddDaMessage().execute();
+                }
             }
         });
 
@@ -215,5 +234,51 @@ public class DaycareDetail extends Activity {
 
         }
     };
+
+
+    class AddDaMessage extends AsyncTask<String, String, String> {
+
+
+        String mess = edittext2.getText().toString();
+        //String msg = ms +"\n"+ getResources().getString(R.string.sentby)+ " " +yourusername + " " + getResources().getString(R.string.ap) + " "+yourap;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(DaycareDetail.this);
+            pDialog.setMessage("Loading. Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+
+        @Override
+        protected String doInBackground(String... args) {
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("message", mess));
+
+
+            @SuppressWarnings("unused")
+            JSONObject json = parser.makeHttpRequest(smileowlurl, params);
+
+            return null;
+        }
+
+        protected void onPostExecute(String zoom) {
+            pDialog.dismiss();
+
+            DaycareDetail.this.runOnUiThread(new Runnable() {
+                public void run() {
+
+                    Toast.makeText(getApplicationContext(), "message sent", Toast.LENGTH_LONG).show();
+                    finish();
+
+
+                }
+            });
+        }
+    }
 
 }

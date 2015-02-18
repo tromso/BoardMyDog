@@ -17,6 +17,7 @@ package com.tromto.boardmydog;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -66,6 +67,7 @@ public class DemoActivity extends Activity {
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
     Context context;
+    String name, email;
 
     String regid;
     private static String urlNew = "http://smileowl.com/Boardmydog/daycaregcmkeys.php";
@@ -80,6 +82,10 @@ public class DemoActivity extends Activity {
 
         context = getApplicationContext();
 
+        Bundle extras = this.getIntent().getExtras();
+        name = extras.getString("name");
+        email = extras.getString("email");
+
         // Check device for Play Services APK. If check succeeds, proceed with GCM registration.
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
@@ -88,6 +94,17 @@ public class DemoActivity extends Activity {
             if (regid.isEmpty()) {
                 registerInBackground();
                 sendRegistrationIdToBackend();
+            }else{
+                Toast t = Toast.makeText(getApplicationContext(),"teapa ai deja cheie mancatias ", Toast.LENGTH_LONG);
+                t.show();
+                // Launch Dashboard Screen
+                Intent dashboard = new Intent(getApplicationContext(), com.tromto.boardmydog.DashboardActivity.class);
+                // Close all views before launching Dashboard
+                dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(dashboard);
+                // Close Registration Screen
+                finish();
+
             }
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
@@ -290,7 +307,8 @@ public class DemoActivity extends Activity {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("regidkey", regid));
-            //params.add(new BasicNameValuePair("owner", owner));
+            params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("email", email));
 
 
             @SuppressWarnings("unused")
@@ -305,8 +323,17 @@ public class DemoActivity extends Activity {
 
             runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast t = Toast.makeText(getApplicationContext(),"key: " + regid, Toast.LENGTH_LONG);
+
+
+                    Toast t = Toast.makeText(getApplicationContext(),"teapa te-am inregistrat acum ", Toast.LENGTH_LONG);
                     t.show();
+                    // Launch Dashboard Screen
+                    Intent dashboard = new Intent(getApplicationContext(), com.tromto.boardmydog.DashboardActivity.class);
+                    // Close all views before launching Dashboard
+                    dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(dashboard);
+                    // Close Registration Screen
+                    finish();
 
                 }
             });

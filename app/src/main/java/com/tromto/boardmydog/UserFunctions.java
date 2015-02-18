@@ -1,8 +1,4 @@
-/**
- * Author: Ravi Tamada
- * URL: www.androidhive.info
- * twitter: http://twitter.com/ravitamada
- * */
+
 package com.tromto.boardmydog;
 
 import android.content.Context;
