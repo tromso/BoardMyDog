@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserFunctions {
@@ -84,5 +85,10 @@ public class UserFunctions {
 		db.resetTables();
 		return true;
 	}
+    public HashMap getdauser(Context context){
+        com.tromto.boardmydog.DatabaseHandler db = new com.tromto.boardmydog.DatabaseHandler(context);
+        HashMap x = db.getUserDetails();
+        return x;
+    }
 	
 }

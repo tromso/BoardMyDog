@@ -153,8 +153,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             switch (position) {
                 case 0:
                     // Top Rated fragment activity
-                    return new DaycareFragment();
+                    return new YouFragment();
                 case 1:
+                    // Top Rated fragment activity
+                    return new DaycareFragment();
+                case 2:
                     // Games fragment activity
                     return new DogsitterFragment();
 
@@ -166,7 +169,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -174,8 +177,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
+                    return getString(R.string.title_section3).toUpperCase(l);
                 case 1:
+                    return getString(R.string.title_section1).toUpperCase(l);
+                case 2:
                     return getString(R.string.title_section2).toUpperCase(l);
 
             }

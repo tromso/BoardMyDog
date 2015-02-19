@@ -10,12 +10,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Button;
 
 public class DashboardActivity extends Activity {
 	UserFunctions userFunctions;
-	Button btnLogout;
+
     private ProgressDialog pDialog;
+    String email;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,16 +25,14 @@ public class DashboardActivity extends Activity {
          * */        
         // Check login status in database
 
-        
+
+
         new CheckLogin().execute();
+
         
         
     }
     class CheckLogin extends AsyncTask<String, String, String> {
-
-
-
-
         String bool;
 
 
@@ -54,6 +52,7 @@ public class DashboardActivity extends Activity {
 
             userFunctions = new UserFunctions();
             if(userFunctions.isUserLoggedIn(getApplicationContext())){
+
                 bool = "A";
             }else{
                 bool = "B";
@@ -72,6 +71,7 @@ public class DashboardActivity extends Activity {
 
                         Intent login = new Intent(getApplicationContext(), MainActivity.class);
                         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                         startActivity(login);
                         // Closing dashboard screen
                         finish();
