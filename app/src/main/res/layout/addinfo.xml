@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/editText" />
+        android:id="@+id/editText1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,6 +30,19 @@
         android:inputType="phone"
         android:ems="10"
         android:id="@+id/editText2" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Address"
+        android:id="@+id/textView8" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/editText3" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,7 +57,7 @@
         android:inputType="textPersonName"
         android:text="Name"
         android:ems="10"
-        android:id="@+id/editText3" />
+        android:id="@+id/editText4" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,27 +71,15 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/editText4" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Address"
-        android:id="@+id/textView8" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
         android:id="@+id/editText5" />
+
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update information"
-        android:id="@+id/button"
+        android:id="@+id/button1"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

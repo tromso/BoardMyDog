@@ -35,7 +35,7 @@ public class AddDog extends Activity {
 
         Bundle extras = this.getIntent().getExtras();
         email = extras.getString("email");
-        Toast.makeText(getApplicationContext(), email, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), email, Toast.LENGTH_LONG).show();
         editText1 = (EditText)findViewById(R.id.editText1);
         editText2 = (EditText)findViewById(R.id.editText2);
         editText3 = (EditText)findViewById(R.id.editText3);
