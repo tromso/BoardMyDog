@@ -1,36 +1,42 @@
 package com.tromto.boardmydog;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by k on 2/3/15.
  */
-public class DaycareDetail extends Activity {
+public class DaycareDetail extends ListActivity implements AdapterView.OnItemSelectedListener {
 
-
-    String name, address;
+    String zname, address, dog;
     private Button  button1;
     private static String urlNew = "http://smileowl.com/Boardmydog/reservation.php";
     private static String smileowlurl = "http://smileowl.com/Boardmydog/send_message.php";
+    private static final String getdogsurl = "http://smileowl.com/Boardmydog/getdadogs.php";
     EditText edittext1, edittext2;
 
     private int year;
@@ -47,7 +53,15 @@ public class DaycareDetail extends Activity {
     private Button checkinbutton, checkoutbutton, message;
     private ProgressDialog pDialog;
 
+    UserFunctions userFunctions;
+    String email;
 
+    jParser parserget = new jParser();
+    JSONArray jArray = null;
+    ArrayList<HashMap<String, String>> dogshashmap;
+
+    private Spinner spin;
+    private ArrayList<Category> categoriesList;
 
 
     @Override
@@ -56,8 +70,17 @@ public class DaycareDetail extends Activity {
         setContentView(R.layout.daycaredetail);
 
         Bundle extras = this.getIntent().getExtras();
-        name = extras.getString("name");
+        zname = extras.getString("name");
         address = extras.getString("address");
+
+        userFunctions = new UserFunctions();
+        HashMap map = new HashMap();
+        map = userFunctions.getdauser(getApplicationContext());
+        email = (String) map.get("email");
+
+        dogshashmap = new ArrayList<HashMap<String, String>>();
+
+        new GetDaDogs().execute();
 
         checkin = (TextView) findViewById(R.id.tvDate);
         checkout = (TextView) findViewById(R.id.tvDate2);
@@ -112,8 +135,16 @@ public class DaycareDetail extends Activity {
 
 
 
+        spin = (Spinner) findViewById(R.id.spin);
+
+        categoriesList = new ArrayList<Category>();
+        spin.setOnItemSelectedListener(this);
+        //dog = spin.getSelectedItem().toString();
+
         button1 = (Button)findViewById(R.id.button1);
         edittext1 = (EditText)findViewById(R.id.editText1);
+
+
 
 
         button1.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +174,7 @@ public class DaycareDetail extends Activity {
     class AddDaReservation extends AsyncTask<String, String, String> {
 
 
-        String owner = edittext1.getText().toString();
+        //String owner = edittext1.getText().toString();
         String numberdays = "69";
 
 
@@ -153,8 +184,9 @@ public class DaycareDetail extends Activity {
 
 
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("daycare", name));
-            params.add(new BasicNameValuePair("owner", owner));
+            params.add(new BasicNameValuePair("daycare", zname));
+            params.add(new BasicNameValuePair("email", email));
+            params.add(new BasicNameValuePair("dog", dog));
             params.add(new BasicNameValuePair("startdate", startdate));
             params.add(new BasicNameValuePair("enddate", enddate));
             params.add(new BasicNameValuePair("numberdays", numberdays));
@@ -280,5 +312,117 @@ public class DaycareDetail extends Activity {
             });
         }
     }
+    class GetDaDogs extends AsyncTask<String, String, String>{
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... args) {
+
+            try {
+
+                List<NameValuePair> params = new ArrayList<NameValuePair> ();
+                params.add(new BasicNameValuePair("email", email));
+
+                @SuppressWarnings("unused")
+                JSONObject json = parserget.makeHttpRequest(getdogsurl, params);
+                jArray = json.getJSONArray("smileowlTable");
+
+                for (int i =0; i<jArray.length();i++){
+
+                    JSONObject catObj = (JSONObject) jArray.get(i);
+                    Category cat = new Category(i,
+                            catObj.getString("dogname"));
+                    categoriesList.add(cat);
+
+                }
+
+            } catch(JSONException e) {
+
+                e.printStackTrace();
+            }
+            return null;
+            //
+        }
+        protected void onPostExecute(String zoom){
+
+                    DaycareDetail.this.runOnUiThread(new Runnable() {
+                        public void run() {
+
+                                    populateSpinner();
+
+
+                        }
+                    });
+        }
+
+    }
+    private void populateSpinner() {
+
+        List<String> lables = new ArrayList<String>();
+
+        for (int i = 0; i < categoriesList.size(); i++) {
+            lables.add(categoriesList.get(i).getName());
+        }
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, lables);
+
+        // Drop down layout style - list view with radio button
+        spinnerAdapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spin.setAdapter(spinnerAdapter);
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+        Toast.makeText(
+                getApplicationContext(),
+                parent.getItemAtPosition(position).toString() + " Selected" ,
+                Toast.LENGTH_LONG).show();
+        dog = spin.getSelectedItem().toString();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
+
+    public class Category {
+
+        private int id;
+        private String name;
+
+        public Category(){}
+
+        public Category(int id, String name){
+            this.id = id;
+            this.name = name;
+        }
+
+        public void setId(int id){
+            this.id = id;
+        }
+
+        public void setName(String name){
+            this.name = name;
+        }
+
+        public int getId(){
+            return this.id;
+        }
+
+        public String getName(){
+            return this.name;
+        }
+
+    }
 }
