@@ -13,6 +13,17 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <EditText
+        android:id="@+id/fragment_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/frag_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss Fragment" />
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"

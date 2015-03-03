@@ -1,8 +1,8 @@
 package com.tromto.boardmydog;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by k on 2/3/15.
  */
-public class DaycareDetail extends ListActivity implements AdapterView.OnItemSelectedListener {
+public class DaycareDetail extends Activity implements AdapterView.OnItemSelectedListener {
 
     String zname, address, dog;
     private Button  button1;

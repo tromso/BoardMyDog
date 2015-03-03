@@ -46,17 +46,18 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
         userFunctions = new UserFunctions();
         HashMap map = new HashMap();
         map = userFunctions.getdauser(getActivity());
+        email = (String) map.get("email");
+        name = (String) map.get("name");
 
         dogshashmap = new ArrayList<HashMap<String, String>>();
 
         new GetDaDogs().execute();
 
-        email = (String) map.get("email");
-        name = (String) map.get("name");
+
 
 
         textView1 = (TextView)rootView.findViewById(R.id.textView1);
-        textView1.setText(email+"\n"+name);
+        textView1.setText("Email: " + email+"\n"+"Name: " + name);
 
 
         Button button1 = (Button)rootView.findViewById(R.id.button1);
@@ -150,9 +151,6 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                                             long id) {
 
 
-
-
-
                     }
 
                 });
@@ -163,4 +161,8 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
     }
 
 }
+
+    public void updateTextValue(String newText) {
+        textView1.setText(newText);
+    }
 }

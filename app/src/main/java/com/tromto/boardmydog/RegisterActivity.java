@@ -135,10 +135,12 @@ public class RegisterActivity extends Activity {
                 public void run() {
 
                     // Launch reg key Demo Screen
-                    Intent dashboard = new Intent(getApplicationContext(), DemoActivity.class);
+                    Intent i = new Intent(getApplicationContext(), DemoActivity.class);
                     // Close all views before launching Dashboard
-                    dashboard.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(dashboard);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.putExtra("email", email);
+                    i.putExtra("name", name);
+                    startActivity(i);
 
 
                     // Close Registration Screen

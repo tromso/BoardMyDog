@@ -12,25 +12,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class DashboardActivity extends Activity {
-	UserFunctions userFunctions;
 
+	UserFunctions userFunctions;
     private ProgressDialog pDialog;
-    String email;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        /**
-         * Dashboard Screen for the application
-         * */        
-        // Check login status in database
-
-
 
         new CheckLogin().execute();
 
-        
-        
     }
     class CheckLogin extends AsyncTask<String, String, String> {
         String bool;
@@ -58,7 +49,7 @@ public class DashboardActivity extends Activity {
                 bool = "B";
             }
             return bool;
-            //
+
         }
 
         protected void onPostExecute(String zoom){
@@ -69,31 +60,12 @@ public class DashboardActivity extends Activity {
 
                     if (bool == "A") {
 
-                        Intent login = new Intent(getApplicationContext(), MainActivity.class);
-                        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
 
-                        startActivity(login);
-                        // Closing dashboard screen
                         finish();
-                        /*
-                        setContentView(R.layout.dashboard);
-                        btnLogout = (Button) findViewById(R.id.btnLogout);
 
-                        btnLogout.setOnClickListener(new View.OnClickListener() {
-
-                            public void onClick(View arg0) {
-                                // TODO Auto-generated method stub
-                                userFunctions.logoutUser(getApplicationContext());
-                                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-                                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(login);
-                                // Closing dashboard screen
-                                finish();
-                            }
-
-                        });
-
-                       */
 
                     }else {
                         // user is not logged in show login screen
