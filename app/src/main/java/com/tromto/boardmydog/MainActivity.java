@@ -16,14 +16,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.Locale;
 
 
-public class MainActivity extends Activity implements ActionBar.TabListener, DaycareFragment.TabClickedListener {
+public class MainActivity extends Activity implements ActionBar.TabListener {
+/*
 
+    , DaycareFragment.TabClickedListener
+    public interface TabClickedListener2 {
+        public void passParam2(String var2);
 
+    }
+    private TabClickedListener2 listener2;
+*/
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -227,35 +233,66 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Day
             return rootView;
         }
     }
-
+/*
     @Override
     public void passParam(String var) {
-        Toast.makeText(this,  var, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,  var, Toast.LENGTH_LONG).show();
 
 
 
     }
+
+
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
 
         if (fragment.getClass() == YouFragment.class) {
            YouFragment mClassAFragment = (YouFragment)fragment;
-
+            //mClassAFragment.updateTextValue(newText);
             //passParam(var);
             //mClassAFragment.updateTextValue("p");
 
 
+            //Toast.makeText(this,  "u", Toast.LENGTH_LONG).show();
+
 
         }
         else if(fragment.getClass() == DogsitterFragment.class) {
-            DogsitterFragment zClassAFragment = (DogsitterFragment)fragment;
-            //ipassParam("y");
+           DogsitterFragment zClassAFragment = (DogsitterFragment)fragment;
 
+            zClassAFragment.setTextChangeListener(new DaycareFragment.TabClickedListener() {
+
+
+
+                @Override
+                public void passParam(String newText) {
+                    //Toast.makeText(getApplicationContext(), newText, Toast.LENGTH_LONG).show();
+
+                    listener2.passParam2(newText);
+                }
+            });
+
+
+        }else if(fragment.getClass() == DaycareFragment.class){
+            DaycareFragment dFF = (DaycareFragment)fragment;
+            //Toast.makeText(this,  "daycarefra", Toast.LENGTH_LONG).show();
+            dFF.setTextChangeListener(new DaycareFragment.TabClickedListener() {
+
+
+
+                @Override
+                public void passParam(String newText) {
+                    Toast.makeText(getApplicationContext(), newText, Toast.LENGTH_LONG).show();
+
+
+                   // dFF.updateTextValue(newText);
+                }
+            });
         }
     }
 
-
+*/
 
 
 }

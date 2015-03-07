@@ -25,6 +25,15 @@
         android:divider="@android:color/transparent">
 
     </ListView>
+    <ListView
+        android:id="@android:id/list2"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:listSelector="@android:color/transparent"
+        android:divider="@android:color/transparent">
+
+    </ListView>
 
     <Button
         android:layout_width="wrap_content"
@@ -39,6 +48,14 @@
         android:text="Add a dog info"
         android:id="@+id/button2"
         android:layout_gravity="right" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change daycare details"
+        android:id="@+id/button3"
+        android:layout_gravity="right" />
+
 </LinearLayout>
 
 

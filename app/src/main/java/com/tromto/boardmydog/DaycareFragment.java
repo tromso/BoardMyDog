@@ -1,6 +1,5 @@
 package com.tromto.boardmydog;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,13 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,7 +34,7 @@ public class DaycareFragment extends ListFragment {
 
     static EditText userNameEditText;
     static String username;
-
+/*
     public interface TabClickedListener {
         public void passParam(String var);
     }
@@ -49,6 +45,8 @@ public class DaycareFragment extends ListFragment {
     public void onAttach(Activity activity) {
         // TODO Auto-generated method stub
         super.onAttach(activity);
+
+
         if (activity instanceof TabClickedListener) {
             //call the method in the parent activity (MainActivity.java)
             listener = (TabClickedListener)activity;
@@ -57,7 +55,7 @@ public class DaycareFragment extends ListFragment {
             throw new ClassCastException(activity.toString() + "must implement loginFragInterface.");
         }
     }
-
+*/
     private ProgressDialog pDialog;
     private static final String getdaycare = "http://smileowl.com/Boardmydog/daycares.php";
     jParser parser = new jParser();
@@ -79,7 +77,7 @@ public class DaycareFragment extends ListFragment {
         map = userFunctions.getdauser(getActivity());
         email = (String) map.get("email");
 
-
+/*
         userNameEditText = (EditText)rootView.findViewById(R.id.fragment_name);
 
         Button button = (Button)rootView.findViewById(R.id.frag_button);
@@ -89,9 +87,10 @@ public class DaycareFragment extends ListFragment {
             public void onClick(View v) {
                 username = userNameEditText.getText().toString();
                 listener.passParam(username);
+
             }
         });
-
+*/
         new GetDaDaycares().execute();
 
         //listener = TabClickedListener
@@ -100,7 +99,7 @@ public class DaycareFragment extends ListFragment {
     }
 
 
-    class GetDaDaycares extends AsyncTask<String, String, String>{
+    class GetDaDaycares extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -163,7 +162,7 @@ public class DaycareFragment extends ListFragment {
 
                     setListAdapter(adapter);
                     ListView lv = getListView();
-                    lv.setOnItemClickListener(new OnItemClickListener(){
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -177,15 +176,15 @@ public class DaycareFragment extends ListFragment {
                             String address = movies.get(position).get("address");
                             String mail = movies.get(position).get("mail");
 
-                            listener.passParam(address);
+                           // listener.passParam(address);
                             if (mail.equals(email)){
-                                Toast t = Toast.makeText(getActivity(), "You are the owner", Toast.LENGTH_LONG);
-                                t.show();
+                                //Toast t = Toast.makeText(getActivity(), "You are the owner", Toast.LENGTH_LONG);
+                                //t.show();
                                 owner = true;
                             }
                             else{
-                                Toast t1 = Toast.makeText(getActivity(), mail+email, Toast.LENGTH_LONG);
-                                t1.show();
+                              //  //Toast t1 = Toast.makeText(getActivity(), mail+email, Toast.LENGTH_LONG);
+                               // t1.show();
                             }
 
 
@@ -206,15 +205,18 @@ public class DaycareFragment extends ListFragment {
         }
 
     }
-/*
+ /*
     public void setTextChangeListener(TabClickedListener listener) {
         this.listener = listener;
     }
+
 
     private static TabClickedListener listener = new TabClickedListener() {
         @Override
         public void passparam(String var) {
         }
     };
+
+
 */
 }
