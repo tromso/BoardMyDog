@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -31,9 +30,6 @@ public class DaycareFragment extends ListFragment {
 
     //TabClickedListener listener;
 
-
-    static EditText userNameEditText;
-    static String username;
 /*
     public interface TabClickedListener {
         public void passParam(String var);

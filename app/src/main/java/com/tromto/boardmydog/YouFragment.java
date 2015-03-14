@@ -14,7 +14,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -273,7 +272,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                     public void onItemClick(AdapterView<?> parent, View view, int position,
                                             long id) {
 
-                        Toast.makeText(getActivity(), messagemap.get(position).get("senderemail")+ "and receiver email is"+ email, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), messagemap.get(position).get("senderemail")+ "and receiver email is"+ email, Toast.LENGTH_LONG).show();
 
                         Intent i5 = new Intent(getActivity(), Messagethread.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
                         i5.putExtra("email", email);
@@ -314,6 +313,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
             }
         });
     }
+
 
 }
 

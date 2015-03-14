@@ -13,9 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner android:id="@+id/spin"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -25,13 +23,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send message" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make reservation for: "
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Spinner android:id="@+id/spin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
     <DatePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/dpResult"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,41 +49,51 @@
             android:layout_centerHorizontal="true"
             android:visibility="gone"/>
 
-
-
-    <Button
-        android:id="@+id/btnChangeDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check in" />
-        <Button
-            android:id="@+id/btnChangeDate2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Check out" />
-
-
-
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-        <TextView
-            android:id="@+id/tvDate2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <EditText
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:ems="10"
-            android:id="@+id/editText1" />
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btnChangeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check in" />
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btnChangeDate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check out" />
+
+
+
+
+            <TextView
+                android:id="@+id/tvDate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+
+
+
+        </LinearLayout>
+
+
 
         <Button
             android:id="@+id/button1"

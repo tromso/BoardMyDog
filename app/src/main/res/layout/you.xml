@@ -52,13 +52,13 @@
         android:layout_gravity="right" />
 
 
-            <Button
+    <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Your dogs"
                 android:id="@+id/button4"
                 android:layout_gravity="right" />
-            <Button
+    <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reservations"
