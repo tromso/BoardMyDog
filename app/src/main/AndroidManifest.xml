@@ -26,70 +26,75 @@
     <!-- Permission to vibrate -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:label="@string/app_name"
-            android:name=".DashboardActivity" >
-            <intent-filter >
+            android:name=".DashboardActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tromto.boardmydog.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
-
         </activity>
         <activity
-            android:name="com.tromto.boardmydog.Addinfo"
+            android:name=".Addinfo"
             android:label="@string/app_name" >
-
         </activity>
         <activity
-            android:name="com.tromto.boardmydog.AddDog"
+            android:name=".AddDog"
             android:label="@string/app_name" >
-
         </activity>
         <activity
-            android:name="com.tromto.boardmydog.DaycareDetail"
+            android:name=".Messagethread"
             android:label="@string/app_name" >
-
         </activity>
         <activity
-            android:label="Login Account"
-            android:name=".LoginActivity">
-
-            </activity>
-
-        <!--  Register Activity -->
+            android:name=".DaycareDetail"
+            android:label="@string/app_name" >
+        </activity>
         <activity
-            android:label="Register New Account"
-            android:name=".RegisterActivity">
+            android:name=".LoginActivity"
+            android:label="Login Account" >
+        </activity>
 
-            </activity>
+        <!-- Register Activity -->
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Register New Account" >
+        </activity>
         <activity
             android:name=".DemoActivity"
             android:label="@string/app_name" >
-
         </activity>
+
         <receiver
             android:name=".GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.tromto.boardmydog" />
             </intent-filter>
         </receiver>
+
         <service android:name=".GcmIntentService" />
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".Event"
+            android:label="@string/title_activity_event" >
+        </activity>
     </application>
 
 </manifest>

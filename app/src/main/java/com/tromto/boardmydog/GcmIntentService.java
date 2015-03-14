@@ -73,6 +73,7 @@ public class GcmIntentService extends IntentService {
 
 
 
+
     }
 
     // Put the message into a notification and post it.
@@ -90,11 +91,14 @@ public class GcmIntentService extends IntentService {
 
         String title = context.getString(R.string.app_name);
 
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = new Intent(context, DashboardActivity.class);
         // set intent so it does not start a new activity
         notificationIntent.putExtra("message", mes);
+        notificationIntent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
 
-        PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT );
+
+
+        PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0 );
 
         notification.setLatestEventInfo(context, title, mes, intent);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;

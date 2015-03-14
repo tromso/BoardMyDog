@@ -192,6 +192,7 @@ public class DaycareFragment extends ListFragment {
 
                             i2.putExtra("name", daycarename);
                             i2.putExtra("address", address);
+                            i2.putExtra("daycareadminemail", mail);
 
                             startActivityForResult(i2,100);
 

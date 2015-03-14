@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class DaycareDetail extends Activity implements AdapterView.OnItemSelectedListener {
 
-    String zname, address, dog;
+
     private Button  button1;
     private static String urlNew = "http://smileowl.com/Boardmydog/reservation.php";
     private static String smileowlurl = "http://smileowl.com/Boardmydog/send_message.php";
@@ -54,7 +54,7 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
     private ProgressDialog pDialog;
 
     UserFunctions userFunctions;
-    String email;
+    String daycarename, address, dog, email, daycareadminemail;
 
     jParser parserget = new jParser();
     JSONArray jArray = null;
@@ -70,8 +70,9 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
         setContentView(R.layout.daycaredetail);
 
         Bundle extras = this.getIntent().getExtras();
-        zname = extras.getString("name");
+        daycarename = extras.getString("name");
         address = extras.getString("address");
+        daycareadminemail = extras.getString("daycareadminemail");
 
         userFunctions = new UserFunctions();
         HashMap map = new HashMap();
@@ -184,7 +185,7 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
 
 
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("daycare", zname));
+            params.add(new BasicNameValuePair("daycare", daycarename));
             params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("dog", dog));
             params.add(new BasicNameValuePair("startdate", startdate));
@@ -290,6 +291,8 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("message", mess));
+            params.add(new BasicNameValuePair("daycareadminemail", daycareadminemail));
+            params.add(new BasicNameValuePair("senderemail", email));
 
 
             @SuppressWarnings("unused")
