@@ -4,7 +4,6 @@ import android.app.ListFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +109,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
 
                 Intent i = new Intent(getActivity(), Addinfo.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
                 i.putExtra("email", email);
+                i.putExtra("name", name);
 
                 startActivityForResult(i,100);
                 break;
@@ -136,6 +136,8 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                 Intent i5 = new Intent(getActivity(), Event.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
                 i5.putExtra("email", email);
                 i5.putExtra("daycarename", daycarename);
+
+                //Toast.makeText(getActivity(), daycarename, Toast.LENGTH_LONG).show();
                 startActivityForResult(i5,100);
                 break;
         }
@@ -219,7 +221,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                         map.put("startdate", startdate);
                         map.put("enddate", enddate);
                         eventmap.add(map);
-                        Log.v(TAG, "hello" + startdate+i);
+                        //Log.v(TAG, "hello" + startdate+i);
                     }
 
 
@@ -238,7 +240,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
 
-                button5.setVisibility(View.VISIBLE);
+
                 if (daycarename.equals("0") || daycarename.equals("")) {
                     // Toast.makeText(getActivity(), daycarename +"you are not owner, just a mortal", Toast.LENGTH_LONG).show();
 
@@ -252,6 +254,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                     //Toast.makeText(getActivity(),email +"is the admin of: " +daycarename , Toast.LENGTH_LONG).show();
                     button3.setVisibility(View.VISIBLE);
                     textView3.setVisibility(View.VISIBLE);
+                    button5.setVisibility(View.VISIBLE);
 
                 }
                 if (success == 1) {
@@ -261,6 +264,8 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                 ListAdapter adapter = new SimpleAdapter(getActivity(), messagemap,
                         R.layout.list, new String[]{"senderemail","message","datesent"},
                         new int[]{R.id.textView1, R.id.textView2, R.id.textView3});
+
+
 
                 //Toast.makeText(getActivity(), daycarename, Toast.LENGTH_LONG).show();
 

@@ -18,7 +18,7 @@ import java.util.List;
  * Created by k on 2/19/15.
  */
 public class Addinfo extends Activity {
-    String email;
+    String email, name;
     EditText editText1, editText2, editText3, editText4, editText5;
     jParser2 parser = new jParser2();
     String phone, secphone, address, emergency, emergencyphone;
@@ -31,6 +31,7 @@ public class Addinfo extends Activity {
 
         Bundle extras = this.getIntent().getExtras();
         email = extras.getString("email");
+        name = extras.getString("name");
         //Toast.makeText(getApplicationContext(), email, Toast.LENGTH_LONG).show();
         editText1 = (EditText)findViewById(R.id.editText1);
         editText2 = (EditText)findViewById(R.id.editText2);
@@ -64,6 +65,7 @@ public class Addinfo extends Activity {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("email", email));
+            params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("phone", phone));
             params.add(new BasicNameValuePair("secphone", secphone));
             params.add(new BasicNameValuePair("address", address));

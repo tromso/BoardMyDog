@@ -57,6 +57,10 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".Doguserdetail"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".DaycareDetail"
             android:label="@string/app_name" >
         </activity>
