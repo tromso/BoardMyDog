@@ -25,6 +25,8 @@
 
     <!-- Permission to vibrate -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -62,6 +64,10 @@
         </activity>
         <activity
             android:name=".DaycareDetail"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".Takepic"
             android:label="@string/app_name" >
         </activity>
         <activity

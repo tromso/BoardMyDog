@@ -11,5 +11,6 @@
     <string name="clear">Clear</string>
     <string name="hello">hi</string>
     <string name="title_activity_event">Event</string>
+    <string name="title_activity_takepic">Takepic</string>
 
 </resources>
