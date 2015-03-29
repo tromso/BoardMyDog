@@ -41,6 +41,11 @@ public class Takepic extends Activity implements View.OnClickListener {
     String imgDecodableString;
     int butt =0;
 
+    String mCurrentPhotoPath;
+
+    static final int REQUEST_TAKE_PHOTO = 1;
+    File photoFile = null;
+
 
 
 
@@ -259,10 +264,7 @@ public class Takepic extends Activity implements View.OnClickListener {
         Log.i(TAG, "onSaveInstanceState");
     }
 
-    String mCurrentPhotoPath;
 
-    static final int REQUEST_TAKE_PHOTO = 1;
-    File photoFile = null;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

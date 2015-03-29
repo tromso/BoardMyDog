@@ -20,11 +20,7 @@ public class DashboardActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent login = new Intent(getApplicationContext(), Takepic.class);
-        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(login);
-        // Closing dashboard screen
-        finish();
+
 
         new CheckLogin().execute();
 
