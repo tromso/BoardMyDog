@@ -46,6 +46,18 @@
         android:text="Send Message"
         android:id="@+id/button1"
         android:layout_gravity="right" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take picture"
+        android:id="@+id/button2"
+        android:layout_gravity="right" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select picture"
+        android:id="@+id/button3"
+        android:layout_gravity="right" />
 
 
 

@@ -44,6 +44,9 @@ public class Messagethread extends ListActivity{
     private ProgressDialog pDialog;
     EditText edittext1;
 
+    private Button mTakePhoto, button2;
+    String butt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,9 @@ public class Messagethread extends ListActivity{
 
         new GetDaThread().execute();
 
+        mTakePhoto = (Button) findViewById(R.id.button2);
+        button2 = (Button) findViewById(R.id.button3);
+
         Button message = (Button) findViewById(R.id.button1);
         edittext1 = (EditText)findViewById(R.id.edittext1);
         message.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +78,33 @@ public class Messagethread extends ListActivity{
 
                     new AddDaMessage().execute();
                 }
+            }
+        });
+
+        mTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Intent i = new Intent(getApplicationContext(), Takepic.class);
+                    i.putExtra("email", email);
+                    i.putExtra("from", from);
+                    butt = "1";
+                    i.putExtra("butt", butt);
+                    startActivity(i);
+
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Intent i = new Intent(getApplicationContext(), Takepic.class);
+                    i.putExtra("email", email);
+                    i.putExtra("from", from);
+                    butt = "2";
+                    i.putExtra("butt", butt);
+                    startActivity(i);
+
             }
         });
 

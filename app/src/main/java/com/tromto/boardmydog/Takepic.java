@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,14 +31,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class Takepic extends Activity implements View.OnClickListener {
+public class Takepic extends Activity {
 
     private Button mTakePhoto, button2;
     private ImageView mImageView;
     private static final String TAG = "upload";
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
-    int butt =0;
+    int butt;
+    String email, from;
 
     String mCurrentPhotoPath;
 
@@ -55,28 +55,66 @@ public class Takepic extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_takepic);
 
+
+        mImageView = (ImageView) findViewById(R.id.imageView1);
+
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        from = intent.getStringExtra("from");
+
+       String sbutt = intent.getStringExtra("butt");
+        butt = Integer.parseInt(sbutt);
+
+        Toast.makeText(this, butt +" but " + email + " "+ from, Toast.LENGTH_LONG).show();
+
+
+        if(butt==1){
+
+            Log.i(TAG, "onActivityResult: " +"butt"+ this);
+            takePhoto();
+
+        }
+        else if(butt==2){
+
+            Log.i(TAG, "onActivityResult: " +"butt"+ this);
+            selectPhoto();
+
+        }
+
+
+
+
+
+    }
+/*
         mTakePhoto = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
-        mImageView = (ImageView) findViewById(R.id.imageView1);
+
 
         mTakePhoto.setOnClickListener(this);
         button2.setOnClickListener(this);
-    }
-    @Override
+
+        @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
         int id = v.getId();
         switch (id) {
             case R.id.button1:
                 takePhoto();
-                butt = 1;
+                //butt = 1;
                 break;
             case R.id.button2:
                 selectPhoto();
-                butt =2;
+               // butt =2;
                 break;
         }
     }
+
+        */
+
+
+
+
 
     private void takePhoto() {
 //		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -320,7 +358,9 @@ public class Takepic extends Activity implements View.OnClickListener {
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = 4;
+                //Math.min(photoW/targetW, photoH/t
+                // argetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;

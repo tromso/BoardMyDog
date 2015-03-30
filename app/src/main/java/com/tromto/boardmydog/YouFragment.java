@@ -56,10 +56,12 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
         map = userFunctions.getdauser(getActivity());
         email = (String) map.get("email");
         name = (String) map.get("name");
-
+/*
         Intent login = new Intent(getActivity(), Takepic.class);
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(login);
+
+        */
         // Closing dashboard screen
 
 
