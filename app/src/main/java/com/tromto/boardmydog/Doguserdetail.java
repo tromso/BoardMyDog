@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -242,9 +244,11 @@ public class Doguserdetail extends Activity {
             ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
             //imageView.getLayoutParams().height = 100;
             //imageView.getLayoutParams().width = 100;
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+           // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             //mImageFetcher.loadImage(movies.get(position).get("poster"),
                     //imageView);
+            Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/1428020438351.jpg").into(imageView);
+
 
 
 

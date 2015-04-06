@@ -18,9 +18,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +31,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class Takepic extends Activity {
@@ -46,6 +51,9 @@ public class Takepic extends Activity {
     static final int REQUEST_TAKE_PHOTO = 1;
     File photoFile = null;
 
+
+
+    jParser2 parser = new jParser2();
 
 
 
@@ -86,34 +94,6 @@ public class Takepic extends Activity {
 
 
     }
-/*
-        mTakePhoto = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-
-
-        mTakePhoto.setOnClickListener(this);
-        button2.setOnClickListener(this);
-
-        @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        int id = v.getId();
-        switch (id) {
-            case R.id.button1:
-                takePhoto();
-                //butt = 1;
-                break;
-            case R.id.button2:
-                selectPhoto();
-               // butt =2;
-                break;
-        }
-    }
-
-        */
-
-
-
 
 
     private void takePhoto() {
@@ -178,7 +158,8 @@ public class Takepic extends Activity {
             //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 //			if (z != null) {
             imgView.setImageBitmap(z);
-//
+
+
 				try {
 				sendPhoto(z);
 			} catch (Exception e) {
@@ -203,6 +184,11 @@ public class Takepic extends Activity {
         protected Void doInBackground(Bitmap... bitmaps) {
             if (bitmaps[0] == null)
                 return null;
+
+
+
+
+
             setProgress(0);
 
             Bitmap bitmap = bitmaps[0];
@@ -215,10 +201,25 @@ public class Takepic extends Activity {
                 HttpPost httppost = new HttpPost(
                         "http://smileowl.com/Boardmydog/Uploads/savetofile.php"); // server
 
+                String timestamp = System.currentTimeMillis() + ".jpg";
+
                 MultipartEntity reqEntity = new MultipartEntity();
-                reqEntity.addPart("myFile",
-                        System.currentTimeMillis() + ".jpg", in);
+                reqEntity.addPart("myFile", timestamp
+                        , in);
+//st
+                String mess = "music";
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("message", mess));
+                params.add(new BasicNameValuePair("from", from));
+                params.add(new BasicNameValuePair("email", email));
+                params.add(new BasicNameValuePair("filename", timestamp));
+                @SuppressWarnings("unused")
+                JSONObject json = parser.makeHttpRequest("http://smileowl.com/Boardmydog/send_messagetouser.php", params);
+
+//st
                 httppost.setEntity(reqEntity);
+
+
 
                 Log.i(TAG, "request " + httppost.getRequestLine());
                 HttpResponse response = null;
@@ -345,7 +346,7 @@ public class Takepic extends Activity {
         return image;
     }
 
-    private void setPic() {
+    private Bitmap setPic() {
         // Get the dimensions of the View
         int targetW = mImageView.getWidth();
         int targetH = mImageView.getHeight();
@@ -380,10 +381,12 @@ public class Takepic extends Activity {
         mImageView.setImageBitmap(rotatedBMP);
 
         try {
-            sendPhoto(rotatedBMP);
+            //sendPhoto(rotatedBMP);
+            return rotatedBMP;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return null;
         }
     }
 

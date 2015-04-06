@@ -1,18 +1,20 @@
 package com.tromto.boardmydog;
 
-import android.app.ListFragment;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,8 +29,8 @@ import java.util.List;
 /**
  * Created by k on 2/18/15.
  */
-public class YouFragment extends ListFragment implements View.OnClickListener {
-    String email, name, message, senderemail, receiveremail, datesent;
+public class YouFragment extends Fragment implements View.OnClickListener {
+    String email, name, message, senderemail, receiveremail, datesent, filename;
     String daycarename = "";
     UserFunctions userFunctions;
     TextView textView1, textView2, textView3;
@@ -43,6 +45,13 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
     private static final String TAG = "MyActivity";
     private static final String TAG_SUCCESS = "success";
     int success;
+
+    ImageView mImageView;
+
+
+    private ImageAdapter mAdapter;
+    ListView lstView1;
+
 
 
     @Override
@@ -62,9 +71,6 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
         startActivity(login);
 
         */
-        // Closing dashboard screen
-
-
 
         dogshashmap = new ArrayList<HashMap<String, String>>();
         eventmap = new ArrayList<HashMap<String, String>>();
@@ -72,20 +78,12 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
 
         new GetDaDogs().execute();
 
-
-
-
-
         textView1 = (TextView)rootView.findViewById(R.id.textView1);
         textView2 = (TextView)rootView.findViewById(R.id.textView2);
         textView3 = (TextView)rootView.findViewById(R.id.textView3);
         textView1.setText("Email: " + email+"\n"+"Name: " + name);
         textView2.setVisibility(View.GONE);
         textView3.setVisibility(View.GONE);
-
-
-
-
 
 
 
@@ -104,6 +102,11 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
         button5.setOnClickListener(this);
+
+
+        mImageView = (ImageView) rootView.findViewById(R.id.imageView);
+        lstView1 = (ListView)rootView.findViewById(R.id.list2);
+
 
         return rootView;
     }
@@ -187,6 +190,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                     senderemail = c.getString("senderemail");
                     receiveremail = c.getString("receiveremail");
                     datesent = c.getString("datesent");
+                    filename = c.getString("filename");
 
 
                     HashMap<String, String> map = new HashMap<String, String>();
@@ -194,6 +198,7 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                     map.put("senderemail", senderemail);
                     map.put("receiveremail", receiveremail);
                     map.put("datesent", datesent);
+                    map.put("filename", filename);
 
                     messagemap.add(map);
                 }
@@ -267,35 +272,6 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                 if (success == 1) {
 
 
-
-                ListAdapter adapter = new SimpleAdapter(getActivity(), messagemap,
-                        R.layout.list, new String[]{"senderemail","message","datesent"},
-                        new int[]{R.id.textView1, R.id.textView2, R.id.textView3});
-
-
-
-                //Toast.makeText(getActivity(), daycarename, Toast.LENGTH_LONG).show();
-
-                setListAdapter(adapter);
-                ListView lv = getListView();
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position,
-                                            long id) {
-
-                        //Toast.makeText(getActivity(), messagemap.get(position).get("senderemail")+ "and receiver email is"+ email, Toast.LENGTH_LONG).show();
-
-                        Intent i5 = new Intent(getActivity(), Messagethread.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
-                        i5.putExtra("email", email);
-                        i5.putExtra("from", messagemap.get(position).get("senderemail"));
-                        startActivityForResult(i5,100);
-
-                    }
-
-                });
-
-
                     for (int i = 0; i < dogshashmap.size(); i++) {
                         // System.out.println(dogshashmap.get(i));
                         textView2.append(dogshashmap.get(i).get("dogname") + "\n");
@@ -307,17 +283,11 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
                                 + " to "+eventmap.get(i).get("enddate") + "\n");
 
                     }
-                    /*
-                    ListAdapter adapter2 = new SimpleAdapter(getActivity(), eventmap,
-                            R.layout.list, new String[]{"dog0", "startdate", "enddate"},
-                            new int[]{R.id.textView1, R.id.textView2 ,R.id.textView3});
 
-                    //Toast.makeText(getActivity(), daycarename, Toast.LENGTH_LONG).show();
 
-                    setListAdapter(adapter2);
-                    ListView lv2 = getListView();
 
-                    */
+                    mAdapter = new ImageAdapter(getActivity(), messagemap);
+                    lstView1.setAdapter(mAdapter);
 
 
 
@@ -328,10 +298,94 @@ public class YouFragment extends ListFragment implements View.OnClickListener {
 
 
 }
+    public class ImageAdapter extends BaseAdapter {
 
-   /* public void updateTextValue(String newText)
-    {
-        textView1.setText(newText);
+        private Context context;
+        private ArrayList<HashMap<String, String>> movies = new ArrayList<HashMap<String, String>>();
+
+        public ImageAdapter(Context c, ArrayList<HashMap<String, String>> list){
+            context = c;
+            movies = list;
+
+        }
+
+        @Override
+        public int getCount() {
+            return movies.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (convertView == null){
+                convertView = inflater.inflate(R.layout.activity_column, null);
+            }
+            //colimage
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
+            //imageView.getLayoutParams().height = 100;
+            //imageView.getLayoutParams().width = 100;
+            // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //mImageFetcher.loadImage(movies.get(position).get("poster"),
+            //imageView);
+            Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
+
+            if (movies.get(position).get("filename")==null){
+                imageView.setVisibility(View.GONE);
+            }
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                    Intent i5 = new Intent(getActivity(), BigPicture.class);
+                    i5.putExtra("filename",  movies.get(position).get("filename"));
+                    startActivityForResult(i5,100);
+
+
+                }
+            });
+            TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
+            //txtPoster.setPadding(10, 0, 0, 0);
+            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
+
+
+            TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
+            //txtGenre.setPadding(10, 0, 0, 0);
+            txtGenre.setText( movies.get(position).get("message"));
+
+
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    Intent i5 = new Intent(getActivity(), Messagethread.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
+                    i5.putExtra("email", email);
+                    i5.putExtra("from", messagemap.get(position).get("senderemail"));
+                    startActivityForResult(i5,100);
+
+                }
+            });
+
+
+            return convertView;
+        }
     }
-    */
+
+
 }

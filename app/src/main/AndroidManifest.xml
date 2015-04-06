@@ -105,6 +105,10 @@
             android:name=".Event"
             android:label="@string/title_activity_event" >
         </activity>
+        <activity
+            android:name=".BigPicture"
+            android:label="@string/title_activity_event" >
+        </activity>
     </application>
 
 </manifest>
