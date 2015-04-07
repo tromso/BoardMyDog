@@ -4,23 +4,7 @@
     android:id="@+id/tableLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-   <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp" >
 
-
-       <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        />
-
-
-       
-       </TableRow>
        <TableRow
         android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
@@ -28,13 +12,7 @@
         android:layout_marginBottom="2dp"
         android:paddingLeft="2dp" >
        
-           <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
 
-
-        </LinearLayout>
 
            <ImageView
            android:id="@+id/image1"
@@ -54,6 +32,23 @@
         />
      
      </TableRow>
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp" >
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+
+
+
+    </TableRow>
 
 
       

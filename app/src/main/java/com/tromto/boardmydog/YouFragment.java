@@ -285,13 +285,14 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     }
 
 
+                }
 
                     mAdapter = new ImageAdapter(getActivity(), messagemap);
                     lstView1.setAdapter(mAdapter);
 
 
 
-            }
+
             }
         });
     }

@@ -1,20 +1,13 @@
 package com.tromto.boardmydog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,15 +29,12 @@ public class Doguserdetail extends Activity {
     private static final String doguserurl = "http://smileowl.com/Boardmydog/getdoguserdetails.php";
     JSONArray jArray = null;
     ArrayList<HashMap<String, String>> dogusermap;
-
-
-    private ImageAdapter mAdapter;
+    TextView tv0, tv1, tv2, tv3, tv4, tv5, tv6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.doguserdetail);
-
+        setContentView(R.layout.activity_doguserdetail);
 
 
         Intent intent = getIntent();
@@ -52,11 +42,7 @@ public class Doguserdetail extends Activity {
         dogname = intent.getStringExtra("dogname");
         dogusermap = new ArrayList<HashMap<String, String>>();
 
-        Toast.makeText(this, "email and dog " + email+ " dogname " +dogname, Toast.LENGTH_LONG).show();
-
         //Toast.makeText(this, "daycare is " + daycarename, Toast.LENGTH_LONG).show();
-
-
 
         new GetDaDoguser().execute();
 
@@ -107,7 +93,7 @@ public class Doguserdetail extends Activity {
                 JSONObject json = parserget.makeHttpRequest(doguserurl, params);
                 jArray = json.getJSONArray("details");
 
-                for (int i =0; i<jArray.length();i++){
+                for (int i = 0; i < jArray.length(); i++) {
 
                     JSONObject c = (JSONObject) jArray.get(i);
 
@@ -141,6 +127,7 @@ public class Doguserdetail extends Activity {
                     map.put("emergencyphone", emergencyphone);
 
 
+                    map.put("breed", breed);
                     map.put("weight", weight);
                     map.put("gender", gender);
                     map.put("age", age);
@@ -154,135 +141,47 @@ public class Doguserdetail extends Activity {
 
                 }
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
 
                 e.printStackTrace();
             }
             return null;
             //
         }
-        protected void onPostExecute(String zoom){
+
+        protected void onPostExecute(String zoom) {
 
             Doguserdetail.this.runOnUiThread(new Runnable() {
                 public void run() {
 
+                    ImageView imageView = (ImageView) findViewById(R.id.image1);
+                    Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Uploads/Uploads/1428020438351.jpg").into(imageView);
 
+                    tv0 = (TextView) findViewById(R.id.textView0);
+                    tv1 = (TextView) findViewById(R.id.textView1);
+                    tv2 = (TextView) findViewById(R.id.textView2);
+                    tv3 = (TextView) findViewById(R.id.textView3);
+                    tv4 = (TextView) findViewById(R.id.textView4);
+                    tv5 = (TextView) findViewById(R.id.textView5);
+                    tv6 = (TextView) findViewById(R.id.textView6);
 
-                    ListView lstView1 = (ListView)findViewById(R.id.list2);
-                    mAdapter = new ImageAdapter(getApplicationContext(), dogusermap);
+                    tv0.setText("Dog: " + dogusermap.get(0).get("dogname"));
+                    tv1.setText("Breed: " + dogusermap.get(0).get("breed"));
+                    tv2.setText("Gender: " + dogusermap.get(0).get("gender") +"\n" + " Age: " + dogusermap.get(0).get("age") +"\n" + " Weight: " + dogusermap.get(0).get("weight"));
+                    tv3.setText("Neutered: " + dogusermap.get(0).get("neutered") +"\n" + " Sociable: " +
+                            dogusermap.get(0).get("sociable") +"\n" + " Veterinarian: " + dogusermap.get(0).get("vet") +"\n" + " Veterinarian phone: " + dogusermap.get(0).get("vetphone"));
 
-                    lstView1.setAdapter(mAdapter);
+                    tv4.setText("Other dog info: " + dogusermap.get(0).get("other"));
 
-
-                     /*
-                    ListAdapter mListView1 = new SimpleAdapter(getApplicationContext(), dogusermap,
-                            R.layout.list, new String[]{"dogname","name","email"},
-                            new int[]{R.id.textView1, R.id.textView2, R.id.textView3});
-
-                    //setListAdapter(adapter);
-                    mListView1.setAdapter(mListAdapter1);
-
-                    ListView lv = getListView();
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                                long id) {
-
-                            //Toast.makeText(getActivity(), messagemap.get(position).get("senderemail")+ "and receiver email is"+ email, Toast.LENGTH_LONG).show();
-
-
-                        }
-
-                    });
-
-*/
-
+                    tv5.setText("Owner: " + dogusermap.get(0).get("name") + "\n" +" Address: " +
+                            dogusermap.get(0).get("address") + "\n" +" Email: " + dogusermap.get(0).get("email"));
+                    tv6.setText("Owner phone: " + dogusermap.get(0).get("phone") + "\n" + " Owner phone 2: " +
+                            dogusermap.get(0).get("secphone") + "\n" +" Emergency contact: " + dogusermap.get(0).get("emergency") + "\n" +" Emergency contact phone: " + dogusermap.get(0).get("emergencyphone"));
 
 
                 }
             });
         }
+    }
 
     }
-    public class ImageAdapter extends BaseAdapter {
-
-        private Context context;
-        private ArrayList<HashMap<String, String>> movies = new ArrayList<HashMap<String, String>>();
-
-        public ImageAdapter(Context c, ArrayList<HashMap<String, String>> list){
-            context = c;
-            movies = list;
-
-        }
-
-        @Override
-        public int getCount() {
-            return movies.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = (LayoutInflater) context.
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            if (convertView == null){
-                convertView = inflater.inflate(R.layout.activity_column, null);
-            }
-            //colimage
-            ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
-            //imageView.getLayoutParams().height = 100;
-            //imageView.getLayoutParams().width = 100;
-           // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            //mImageFetcher.loadImage(movies.get(position).get("poster"),
-                    //imageView);
-            Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/1428020438351.jpg").into(imageView);
-
-
-
-
-            //colposition
-            TextView txtPid = (TextView) convertView.findViewById(R.id.textView1);
-            //txtPid.setPadding(10, 0, 0, 0);
-            txtPid.setText(movies.get(position).get("dogname"));
-
-            TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
-            //txtPoster.setPadding(10, 0, 0, 0);
-            txtPoster.setText( movies.get(position).get("breed"));
-
-            TextView txtName = (TextView) convertView.findViewById(R.id.textView3);
-            //txtName.setPadding(10, 0, 0, 0);
-            txtName.setText( movies.get(position).get("gender") + " (" +movies.get(position).get("weight")+")" );
-
-            TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
-            //txtGenre.setPadding(10, 0, 0, 0);
-            txtGenre.setText( movies.get(position).get("age") + "\n" + movies.get(position).get("neutered") + "\n" + "\n" + movies.get(position).get("description"));
-
-            TextView upvote = (TextView) convertView.findViewById(R.id.textView5);
-            //txtPid.setPadding(10, 0, 0, 0);
-            upvote.setText(movies.get(position).get("name"));
-            TextView downvote = (TextView) convertView.findViewById(R.id.textView6);
-            //txtPid.setPadding(10, 0, 0, 0);
-            downvote.setText(movies.get(position).get("address"));
-
-
-
-
-
-
-
-            return convertView;
-        }
-    }
-}
