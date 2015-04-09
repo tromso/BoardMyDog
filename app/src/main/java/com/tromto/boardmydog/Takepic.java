@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,18 +44,10 @@ public class Takepic extends Activity {
     String imgDecodableString;
     int butt;
     String email, from;
-
     String mCurrentPhotoPath;
-
     static final int REQUEST_TAKE_PHOTO = 1;
     File photoFile = null;
-
-
-
     jParser2 parser = new jParser2();
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +64,7 @@ public class Takepic extends Activity {
        String sbutt = intent.getStringExtra("butt");
         butt = Integer.parseInt(sbutt);
 
-        Toast.makeText(this, butt +" but " + email + " "+ from, Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, butt +" but " + email + " "+ from, Toast.LENGTH_LONG).show();
 
 
         if(butt==1){
@@ -117,6 +108,14 @@ public class Takepic extends Activity {
         Log.i(TAG, "onActivityResult: " + this);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK && butt==1) {
             setPic();
+
+            finish();
+            Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+
+           // Intent i = new Intent(getApplicationContext(), Messagethread.class);
+            //Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+            //startActivityForResult(i,100);
+
 //			Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 //			if (bitmap != null) {
 //				mImageView.setImageBitmap(bitmap);
@@ -148,7 +147,7 @@ public class Takepic extends Activity {
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
-                ImageView imgView = (ImageView) findViewById(R.id.imageView1);
+                //ImageView imgView = (ImageView) findViewById(R.id.imageView1);
                 // Set the Image in ImageView after decoding the String
 
             Bitmap z;
@@ -157,11 +156,18 @@ public class Takepic extends Activity {
 
             //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 //			if (z != null) {
-            imgView.setImageBitmap(z);
+            //imgView.setImageBitmap(z);
 
 
 				try {
+
 				sendPhoto(z);
+
+                    Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+
+                   // Intent i = new Intent(getApplicationContext(), Messagethread.class);
+
+                    //startActivityForResult(i,100);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -172,6 +178,7 @@ public class Takepic extends Activity {
                 Toast.makeText(this, "You haven't picked Image",
                         Toast.LENGTH_LONG).show();
             }
+        finish();
 
     }
 
@@ -207,13 +214,13 @@ public class Takepic extends Activity {
                 reqEntity.addPart("myFile", timestamp
                         , in);
 //st
-                String mess = "music";
+                String mess = "New picture";
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("message", mess));
                 params.add(new BasicNameValuePair("from", from));
                 params.add(new BasicNameValuePair("email", email));
                 params.add(new BasicNameValuePair("filename", timestamp));
-                @SuppressWarnings("unused")
+
                 JSONObject json = parser.makeHttpRequest("http://smileowl.com/Boardmydog/send_messagetouser.php", params);
 
 //st
@@ -346,7 +353,7 @@ public class Takepic extends Activity {
         return image;
     }
 
-    private Bitmap setPic() {
+    private void setPic() {
         // Get the dimensions of the View
         int targetW = mImageView.getWidth();
         int targetH = mImageView.getHeight();
@@ -370,24 +377,16 @@ public class Takepic extends Activity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 
-        Matrix mtx = new Matrix();
-        mtx.postRotate(90);
-        // Rotating Bitmap
-        Bitmap rotatedBMP = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mtx, true);
-
-        if (rotatedBMP != bitmap)
-            bitmap.recycle();
-
-        mImageView.setImageBitmap(rotatedBMP);
-
+       // mImageView.setImageBitmap(bitmap);
         try {
-            //sendPhoto(rotatedBMP);
-            return rotatedBMP;
+        sendPhoto(bitmap);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+
         }
+
+
     }
 
 

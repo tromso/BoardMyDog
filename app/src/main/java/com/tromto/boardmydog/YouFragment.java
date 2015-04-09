@@ -341,11 +341,14 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             //mImageFetcher.loadImage(movies.get(position).get("poster"),
             //imageView);
-            Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
 
-            if (movies.get(position).get("filename")==null){
+            if (movies.get(position).get("filename").length()>6){
+                imageView.setVisibility(View.VISIBLE);
+            }else{
                 imageView.setVisibility(View.GONE);
             }
+            Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

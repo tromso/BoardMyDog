@@ -28,30 +28,6 @@ import java.util.List;
  */
 public class DaycareFragment extends ListFragment {
 
-    //TabClickedListener listener;
-
-/*
-    public interface TabClickedListener {
-        public void passParam(String var);
-    }
-
-    private TabClickedListener listener;
-
-    @Override
-    public void onAttach(Activity activity) {
-        // TODO Auto-generated method stub
-        super.onAttach(activity);
-
-
-        if (activity instanceof TabClickedListener) {
-            //call the method in the parent activity (MainActivity.java)
-            listener = (TabClickedListener)activity;
-        } else {
-            //if we forget to implement the interface, we get an error
-            throw new ClassCastException(activity.toString() + "must implement loginFragInterface.");
-        }
-    }
-*/
     private ProgressDialog pDialog;
     private static final String getdaycare = "http://smileowl.com/Boardmydog/daycares.php";
     jParser parser = new jParser();
@@ -73,24 +49,8 @@ public class DaycareFragment extends ListFragment {
         map = userFunctions.getdauser(getActivity());
         email = (String) map.get("email");
 
-/*
-        userNameEditText = (EditText)rootView.findViewById(R.id.fragment_name);
-
-        Button button = (Button)rootView.findViewById(R.id.frag_button);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                username = userNameEditText.getText().toString();
-                listener.passParam(username);
-
-            }
-        });
-*/
         new GetDaDaycares().execute();
 
-        //listener = TabClickedListener
-        //listener.passParam(email);
         return rootView;
     }
 
@@ -202,18 +162,5 @@ public class DaycareFragment extends ListFragment {
         }
 
     }
- /*
-    public void setTextChangeListener(TabClickedListener listener) {
-        this.listener = listener;
-    }
 
-
-    private static TabClickedListener listener = new TabClickedListener() {
-        @Override
-        public void passparam(String var) {
-        }
-    };
-
-
-*/
 }
