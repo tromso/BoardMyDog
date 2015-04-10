@@ -1,17 +1,20 @@
 package com.tromto.boardmydog;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -26,7 +29,7 @@ import java.util.List;
 /**
  * Created by k on 12/1/14.
  */
-public class DaycareFragment extends ListFragment {
+public class DaycareFragment extends Fragment {
 
     private ProgressDialog pDialog;
     private static final String getdaycare = "http://smileowl.com/Boardmydog/daycares.php";
@@ -36,7 +39,10 @@ public class DaycareFragment extends ListFragment {
 
     String email;
     UserFunctions userFunctions;
-    Boolean owner;
+    private ImageAdapter mAdapter;
+    ListView lstView1;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +54,8 @@ public class DaycareFragment extends ListFragment {
         HashMap map = new HashMap();
         map = userFunctions.getdauser(getActivity());
         email = (String) map.get("email");
+
+        lstView1 = (ListView)rootView.findViewById(R.id.list2);
 
         new GetDaDaycares().execute();
 
@@ -87,11 +95,16 @@ public class DaycareFragment extends ListFragment {
                     String daycarename = c.getString("daycarename");
                     String address = c.getString("address");
                     String mail = c.getString("email");
+                    String description = c.getString("description");
+                    String filename = c.getString("filename");
 
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("daycarename", daycarename);
                     map.put("address", address);
                     map.put("mail", mail);
+                    map.put("description", description);
+                    map.put("filename", filename);
+
 
                     movies.add(map);
 
@@ -112,9 +125,16 @@ public class DaycareFragment extends ListFragment {
                 public void run() {
 
 
+
+                    mAdapter = new ImageAdapter(getActivity(), movies);
+                    lstView1.setAdapter(mAdapter);
+
+
+                    /*
                     ListAdapter adapter = new SimpleAdapter(getActivity(), movies,
                             R.layout.list, new String[] {"daycarename", "address", "mail"},
                             new int[]{R.id.textView1, R.id.textView2, R.id.textView3});
+
 
                     setListAdapter(adapter);
                     ListView lv = getListView();
@@ -156,11 +176,92 @@ public class DaycareFragment extends ListFragment {
 
                     });
 
+                    */
 
                 }
             });
         }
 
+    }
+    public class ImageAdapter extends BaseAdapter {
+
+        private Context context;
+        private ArrayList<HashMap<String, String>> movies = new ArrayList<HashMap<String, String>>();
+
+        public ImageAdapter(Context c, ArrayList<HashMap<String, String>> list){
+            context = c;
+            movies = list;
+
+        }
+
+        @Override
+        public int getCount() {
+            return movies.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (convertView == null){
+                convertView = inflater.inflate(R.layout.activity_daycarelist, null);
+            }
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
+
+            if (movies.get(position).get("filename").length()>6){
+                imageView.setVisibility(View.VISIBLE);
+            }else{
+                imageView.setVisibility(View.GONE);
+            }
+            Picasso.with(context).load("http://smileowl.com/Boardmydog/Daycareimg/" + movies.get(position).get("filename")).into(imageView);
+
+
+            TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
+            //txtPoster.setPadding(10, 0, 0, 0);
+           // txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
+
+
+            TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
+            txtGenre.setText( movies.get(position).get("daycarename")+"\n"+ movies.get(position).get("address")+"\n"+movies.get(position).get("description"));
+
+
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String daycarename =movies.get(position).get("daycarename");
+                    String address = movies.get(position).get("address");
+                    String mail = movies.get(position).get("mail");
+
+                    Intent i2 = new Intent(getActivity(), DaycareDetail.class);
+
+                    i2.putExtra("name", daycarename);
+                    i2.putExtra("address", address);
+                    i2.putExtra("daycareadminemail", mail);
+
+                    startActivityForResult(i2,100);
+
+
+
+                }
+            });
+
+
+            return convertView;
+        }
     }
 
 }

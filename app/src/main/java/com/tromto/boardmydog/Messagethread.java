@@ -9,12 +9,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -58,6 +58,11 @@ public class Messagethread extends ListActivity{
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         from = intent.getStringExtra("from");
+        TextView tv1 = (TextView)findViewById(R.id.textView1);
+        tv1.setText("Send message to "+from);
+
+        TextView tv2 = (TextView)findViewById(R.id.textView2);
+        tv2.setText("Message history with "+from);
 
         messagemap = new ArrayList<HashMap<String, String>>();
 
@@ -208,6 +213,7 @@ public class Messagethread extends ListActivity{
 
                         setListAdapter(adapter);
                         ListView lv = getListView();
+                        /*
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                             @Override
@@ -218,6 +224,7 @@ public class Messagethread extends ListActivity{
                             }
 
                         });
+                        */
 
 
                     }

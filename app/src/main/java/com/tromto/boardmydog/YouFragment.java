@@ -47,8 +47,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
     int success;
 
     ImageView mImageView;
-
-
     private ImageAdapter mAdapter;
     ListView lstView1;
 
@@ -65,12 +63,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         map = userFunctions.getdauser(getActivity());
         email = (String) map.get("email");
         name = (String) map.get("name");
-/*
-        Intent login = new Intent(getActivity(), Takepic.class);
-        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(login);
-
-        */
 
         dogshashmap = new ArrayList<HashMap<String, String>>();
         eventmap = new ArrayList<HashMap<String, String>>();
