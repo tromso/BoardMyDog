@@ -63,10 +63,6 @@ public class Takepic extends Activity {
 
        String sbutt = intent.getStringExtra("butt");
         butt = Integer.parseInt(sbutt);
-
-       // Toast.makeText(this, butt +" but " + email + " "+ from, Toast.LENGTH_LONG).show();
-
-
         if(butt==1){
 
             Log.i(TAG, "onActivityResult: " +"butt"+ this);
@@ -79,9 +75,6 @@ public class Takepic extends Activity {
             selectPhoto();
 
         }
-
-
-
 
 
     }
@@ -107,28 +100,16 @@ public class Takepic extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i(TAG, "onActivityResult: " + this);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK && butt==1) {
-            setPic();
 
-            finish();
-            Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+            if(setPic()) {
+                finish();
+                Log.i(TAG, "a mers cu poza " + this);
+                Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+            }
 
-           // Intent i = new Intent(getApplicationContext(), Messagethread.class);
-            //Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
-            //startActivityForResult(i,100);
-
-//			Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-//			if (bitmap != null) {
-//				mImageView.setImageBitmap(bitmap);
-//				try {
-//					sendPhoto(bitmap);
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
         }
 
-            // When an Image is picked
+     // When an Image is picked
             else if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
                     && null != data  && butt==2) {
 
@@ -154,20 +135,11 @@ public class Takepic extends Activity {
             z = BitmapFactory
                     .decodeFile(imgDecodableString);
 
-            //Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-//			if (z != null) {
-            //imgView.setImageBitmap(z);
-
-
 				try {
 
 				sendPhoto(z);
-
                     Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
 
-                   // Intent i = new Intent(getApplicationContext(), Messagethread.class);
-
-                    //startActivityForResult(i,100);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -353,7 +325,7 @@ public class Takepic extends Activity {
         return image;
     }
 
-    private void setPic() {
+    private boolean setPic() {
         // Get the dimensions of the View
         int targetW = mImageView.getWidth();
         int targetH = mImageView.getHeight();
@@ -385,6 +357,7 @@ public class Takepic extends Activity {
             e.printStackTrace();
 
         }
+        return true;
 
 
     }

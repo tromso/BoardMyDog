@@ -13,4 +13,8 @@
     <string name="title_activity_event">Event</string>
     <string name="title_activity_takepic">Takepic</string>
 
+    <string name="title_activity_bigpicfulls">Bigpicfulls</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

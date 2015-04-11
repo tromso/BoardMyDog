@@ -46,7 +46,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
     private static final String TAG_SUCCESS = "success";
     int success;
 
-    ImageView mImageView;
     private ImageAdapter mAdapter;
     ListView lstView1;
 
@@ -96,7 +95,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         button5.setOnClickListener(this);
 
 
-        mImageView = (ImageView) rootView.findViewById(R.id.imageView);
         lstView1 = (ListView)rootView.findViewById(R.id.list2);
 
 
