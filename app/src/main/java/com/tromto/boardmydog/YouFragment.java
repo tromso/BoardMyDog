@@ -33,7 +33,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
     String email, name, message, senderemail, receiveremail, datesent, filename;
     String daycarename = "";
     UserFunctions userFunctions;
-    TextView textView1, textView2, textView3;
+    TextView textView1, textView2, textView3, textView4;
 
     private static final String getdogsurl = "http://smileowl.com/Boardmydog/getdadogs.php";
     jParser parserget = new jParser();
@@ -72,9 +72,11 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         textView1 = (TextView)rootView.findViewById(R.id.textView1);
         textView2 = (TextView)rootView.findViewById(R.id.textView2);
         textView3 = (TextView)rootView.findViewById(R.id.textView3);
+        textView4 = (TextView)rootView.findViewById(R.id.textView4);
         textView1.setText("Email: " + email+"\n"+"Name: " + name);
         textView2.setVisibility(View.GONE);
         textView3.setVisibility(View.GONE);
+       // textView4.setVisibility(View.GONE);
 
 
 
@@ -246,14 +248,19 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                 if (daycarename.equals("0") || daycarename.equals("")) {
                     // Toast.makeText(getActivity(), daycarename +"you are not owner, just a mortal", Toast.LENGTH_LONG).show();
 
+                    textView4.setText("Your dog: ");
+
                     button1.setVisibility(View.VISIBLE);
                     button2.setVisibility(View.VISIBLE);
                     textView2.setVisibility(View.VISIBLE);
+                    //textView4.setVisibility(View.VISIBLE);
 
 
 
                 } else {
                     //Toast.makeText(getActivity(),email +"is the admin of: " +daycarename , Toast.LENGTH_LONG).show();
+
+                    textView4.setText("Latest reservations: ");
                     button3.setVisibility(View.VISIBLE);
                     textView3.setVisibility(View.VISIBLE);
                     button5.setVisibility(View.VISIBLE);
@@ -264,11 +271,13 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
                     for (int i = 0; i < dogshashmap.size(); i++) {
                         // System.out.println(dogshashmap.get(i));
+
                         textView2.append(dogshashmap.get(i).get("dogname") + "\n");
 
                     }
                     for (int i = 0; i < eventmap.size(); i++) {
                         // System.out.println(dogshashmap.get(i));
+
                         textView3.append(eventmap.get(i).get("dog0")+" From "+ eventmap.get(i).get("startdate")
                                 + " to "+eventmap.get(i).get("enddate") + "\n");
 
@@ -368,7 +377,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                 public void onClick(View view) {
 
 
-                    Intent i5 = new Intent(getActivity(), Messagethread.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
+                    Intent i5 = new Intent(getActivity(), Messagethread.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i5.putExtra("email", email);
                     i5.putExtra("from", messagemap.get(position).get("senderemail"));
                     startActivityForResult(i5,100);

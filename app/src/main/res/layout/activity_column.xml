@@ -1,57 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tableLayout1"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-
-       <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-       
-
-
-           <ImageView
-           android:id="@+id/image1"
-           android:layout_width="80dp"
-           android:layout_height="80dp"
-               android:visibility="gone"
-               android:layout_gravity="left"
-
-           />
-    
-      <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-          android:textStyle="bold"
+        android:orientation="horizontal">
 
-        
-        />
-     
-     </TableRow>
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp" >
+<ImageView
+    android:id="@+id/image1"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:visibility="gone"
+    android:layout_weight="1"
+
+    />
+
+<TextView
+    android:id="@+id/textView4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:textStyle="bold"
+    />
+    </LinearLayout>
+
+<TextView
+    android:id="@+id/textView2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    />
+</LinearLayout>
 
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            />
-
-
-
-    </TableRow>
-
-
-      
-  
-
-</TableLayout>
