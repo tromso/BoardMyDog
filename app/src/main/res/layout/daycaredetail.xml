@@ -13,6 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -20,12 +25,12 @@
             android:id="@+id/edittext2"/>
         <Button
             android:id="@+id/message"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Send message" />
 
         <TextView
-
+            android:paddingTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Make reservation for: "
@@ -96,8 +101,9 @@
 
 
         <Button
+            android:paddingTop="20dp"
             android:id="@+id/button1"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Add Reservation" />
 

@@ -1,17 +1,22 @@
 package com.tromto.boardmydog;
 
-import android.app.ListActivity;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -24,13 +29,16 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Event extends ListActivity {
+public class Event extends Activity {
 
     String email, daycarename;
     jParser parserget = new jParser();
     private static final String reservationsurl = "http://smileowl.com/Boardmydog/getdareservations.php";
     JSONArray jArray = null;
     ArrayList<HashMap<String, String>> eventmap;
+
+    private ImageAdapter mAdapter;
+    ListView lstView1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,8 @@ public class Event extends ListActivity {
         email = intent.getStringExtra("email");
         daycarename = intent.getStringExtra("daycarename");
         eventmap = new ArrayList<HashMap<String, String>>();
+
+        lstView1 = (ListView)findViewById(R.id.list2);
 
         Toast.makeText(this, "daycare is " + daycarename, Toast.LENGTH_LONG).show();
 
@@ -101,12 +111,16 @@ public class Event extends ListActivity {
                     String enddate = c.getString("enddate");
                     String email0 = c.getString("email");
                     String dog0 = c.getString("dog");
+                    String filename = c.getString("filename");
+                    String breed = c.getString("breed");
 
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("dog", dog0);
                     map.put("email0", email0);
                     map.put("startdate", startdate);
                     map.put("enddate", enddate);
+                    map.put("filename", filename);
+                    map.put("breed", breed);
                     eventmap.add(map);
 
 
@@ -125,6 +139,10 @@ public class Event extends ListActivity {
                 public void run() {
 
 
+                    mAdapter = new ImageAdapter(Event.this, eventmap);
+                    lstView1.setAdapter(mAdapter);
+
+                    /*
                     ListAdapter adapter = new SimpleAdapter(getApplicationContext(), eventmap,
                             R.layout.list, new String[]{"dog","startdate","enddate"},
                             new int[]{R.id.textView1, R.id.textView2, R.id.textView3});
@@ -148,6 +166,8 @@ public class Event extends ListActivity {
 
                     });
 
+                    */
+
 
 
 
@@ -155,5 +175,84 @@ public class Event extends ListActivity {
             });
         }
 
+    }
+    public class ImageAdapter extends BaseAdapter {
+
+        private Context context;
+        private ArrayList<HashMap<String, String>> movies = new ArrayList<HashMap<String, String>>();
+
+        public ImageAdapter(Context c, ArrayList<HashMap<String, String>> list){
+            context = c;
+            movies = list;
+
+        }
+
+        @Override
+        public int getCount() {
+            return movies.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (convertView == null){
+                convertView = inflater.inflate(R.layout.activity_column, null);
+            }
+            //colimage
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
+            //imageView.getLayoutParams().height = 100;
+            //imageView.getLayoutParams().width = 100;
+            // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //mImageFetcher.loadImage(movies.get(position).get("poster"),
+            //imageView);
+
+            if (movies.get(position).get("filename").length()>6){
+                imageView.setVisibility(View.VISIBLE);
+            }else{
+                imageView.setVisibility(View.GONE);
+            }
+            Picasso.with(context).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + movies.get(position).get("filename")).into(imageView);
+
+            TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
+            //txtPoster.setPadding(10, 0, 0, 0);
+            txtPoster.setText( "");
+
+
+            TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
+            //txtGenre.setPadding(10, 0, 0, 0);
+            txtGenre.setText( movies.get(position).get("dog") +" " + movies.get(position).get("breed") +
+            "\n"+ "From " +movies.get(position).get("startdate") + " to " + movies.get(position).get("enddate"));
+
+
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    Intent i5 = new Intent(getApplicationContext(), Doguserdetail.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
+                    i5.putExtra("email", eventmap.get(position).get("email0"));
+                    i5.putExtra("dogname", eventmap.get(position).get("dog"));
+                    startActivityForResult(i5,100);
+
+                }
+            });
+
+
+            return convertView;
+        }
     }
 }

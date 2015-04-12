@@ -79,6 +79,9 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
         map = userFunctions.getdauser(getApplicationContext());
         email = (String) map.get("email");
 
+        TextView tv1 = (TextView)findViewById(R.id.textview1);
+        tv1.setText("Send message to " + daycarename);
+
         dogshashmap = new ArrayList<HashMap<String, String>>();
 
         new GetDaDogs().execute();
@@ -387,10 +390,12 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
+        /*
         Toast.makeText(
                 getApplicationContext(),
                 parent.getItemAtPosition(position).toString() + " Selected" ,
                 Toast.LENGTH_LONG).show();
+                */
         dog = spin.getSelectedItem().toString();
 
     }

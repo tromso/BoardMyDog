@@ -114,6 +114,7 @@ public class Doguserdetail extends Activity {
                     String other = c.getString("other");
                     String vet = c.getString("vet");
                     String vetphone = c.getString("vetphone");
+                    String filename = c.getString("filename");
 
                     HashMap<String, String> map = new HashMap<String, String>();
 
@@ -136,6 +137,7 @@ public class Doguserdetail extends Activity {
                     map.put("other", other);
                     map.put("vet", vet);
                     map.put("vetphone", vetphone);
+                    map.put("filename", filename);
                     dogusermap.add(map);
 
 
@@ -155,7 +157,7 @@ public class Doguserdetail extends Activity {
                 public void run() {
 
                     ImageView imageView = (ImageView) findViewById(R.id.image1);
-                    Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Uploads/Uploads/1428020438351.jpg").into(imageView);
+                    Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogusermap.get(0).get("filename")).into(imageView);
 
                     tv0 = (TextView) findViewById(R.id.textView0);
                     tv1 = (TextView) findViewById(R.id.textView1);

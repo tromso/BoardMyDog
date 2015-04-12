@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,13 +36,12 @@ import java.util.List;
 
 public class Takeprofilepic extends Activity {
 
-    private Button mTakePhoto, button2;
     private ImageView mImageView;
     private static final String TAG = "upload";
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
     int butt;
-    String email, from;
+    String email, dogname;
     String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
     File photoFile = null;
@@ -59,7 +57,7 @@ public class Takeprofilepic extends Activity {
 
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
-        from = intent.getStringExtra("from");
+        dogname = intent.getStringExtra("dogname");
 
        String sbutt = intent.getStringExtra("butt");
         butt = Integer.parseInt(sbutt);
@@ -178,7 +176,7 @@ public class Takeprofilepic extends Activity {
             DefaultHttpClient httpclient = new DefaultHttpClient();
             try {
                 HttpPost httppost = new HttpPost(
-                        "http://smileowl.com/Boardmydog/Uploads/savetofile.php"); // server
+                        "http://smileowl.com/Boardmydog/Dogprofilepicture/savetofile.php"); // server
 
                 String timestamp = System.currentTimeMillis() + ".jpg";
 
@@ -186,14 +184,14 @@ public class Takeprofilepic extends Activity {
                 reqEntity.addPart("myFile", timestamp
                         , in);
 //st
-                String mess = "New picture";
+
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("message", mess));
-                params.add(new BasicNameValuePair("from", from));
+
+                params.add(new BasicNameValuePair("dogname", dogname));
                 params.add(new BasicNameValuePair("email", email));
                 params.add(new BasicNameValuePair("filename", timestamp));
 
-                JSONObject json = parser.makeHttpRequest("http://smileowl.com/Boardmydog/send_messagetouser.php", params);
+                JSONObject json = parser.makeHttpRequest("http://smileowl.com/Boardmydog/updatedogprofile.php", params);
 
 //st
                 httppost.setEntity(reqEntity);
@@ -252,6 +250,8 @@ public class Takeprofilepic extends Activity {
         protected void onPostExecute(Void result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
+
+            finish();
            // Toast.makeText(MainActivity.this, R.string.uploaded, Toast.LENGTH_LONG).show();
         }
     }

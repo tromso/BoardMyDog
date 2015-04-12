@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +32,7 @@ import java.util.List;
  * Created by k on 2/18/15.
  */
 public class YouFragment extends Fragment implements View.OnClickListener {
-    String email, name, message, senderemail, receiveremail, datesent, filename;
+    String email, name, message, senderemail, receiveremail, datesent, filename, daycareaddress, daycaredescription, daycarefilename;
     String daycarename = "";
     UserFunctions userFunctions;
     TextView textView1, textView2, textView3, textView4;
@@ -40,6 +42,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
     JSONArray jArray = null;
     JSONArray jArray2 = null;
     JSONArray jArray3 = null;
+    JSONArray jArray4 = null;
     ArrayList<HashMap<String, String>> dogshashmap, eventmap, messagemap;
     Button button1, button2, button3, button4, button5;
     private static final String TAG = "MyActivity";
@@ -121,18 +124,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                 i2.putExtra("email", email);
                 startActivityForResult(i2,100);
                 break;
-            case R.id.button3:
 
-                Intent i3 = new Intent(getActivity(), AddDog.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
-                i3.putExtra("email", email);
-                startActivityForResult(i3,100);
-                break;
-            case R.id.button4:
-
-                Intent i4 = new Intent(getActivity(), AddDog.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
-                i4.putExtra("email", email);
-                startActivityForResult(i4,100);
-                break;
             case R.id.button5:
 
                 Intent i5 = new Intent(getActivity(), Event.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
@@ -201,6 +193,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     String dogname = c.getString("dogname");
                     daycarename = c.getString("daycarename");
 
+
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("dogname", dogname);
                     map.put("daycarename", daycarename);
@@ -230,6 +223,14 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
 
                 }
+                jArray4 = json.getJSONArray("updatedaycaredetails");
+
+
+                    JSONObject c = jArray4.getJSONObject(0);
+                    daycareaddress = c.getString("daycareaddress");
+                    daycaredescription = c.getString("daycaredescription");
+                    daycarefilename = c.getString("daycarefilename");
+                    Log.v(TAG, "hello" + daycareaddress + daycaredescription);
 
             }
         } catch(JSONException e) {
@@ -246,6 +247,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
 
                 if (daycarename.equals("0") || daycarename.equals("")) {
+                    //not owner
                     // Toast.makeText(getActivity(), daycarename +"you are not owner, just a mortal", Toast.LENGTH_LONG).show();
 
                     textView4.setText("Your dog: ");
@@ -258,6 +260,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
 
                 } else {
+
+                    //owner
                     //Toast.makeText(getActivity(),email +"is the admin of: " +daycarename , Toast.LENGTH_LONG).show();
 
                     textView4.setText("Latest reservations: ");
@@ -265,6 +269,24 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     textView3.setVisibility(View.VISIBLE);
                     button5.setVisibility(View.VISIBLE);
 
+                    button3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Toast.makeText(getActivity(), daycareaddress + "addressf: " + daycaredescription, Toast.LENGTH_LONG).show();
+
+
+                            Intent i3 = new Intent(getActivity(), Updatedaycare.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
+                            i3.putExtra("email", email);
+                            i3.putExtra("daycarename", daycarename);
+                            i3.putExtra("daycareaddress", daycareaddress);
+                            i3.putExtra("daycaredescription", daycaredescription);
+                            i3.putExtra("daycarefilename", daycarefilename);
+                            startActivityForResult(i3,100);
+
+
+                        }
+                    });
                 }
                 if (success == 1) {
 
