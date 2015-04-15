@@ -250,8 +250,6 @@ public class Takeprofilepic extends Activity {
         protected void onPostExecute(Void result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
-
-            finish();
            // Toast.makeText(MainActivity.this, R.string.uploaded, Toast.LENGTH_LONG).show();
         }
     }

@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -32,10 +31,11 @@ import java.util.List;
  * Created by k on 2/18/15.
  */
 public class YouFragment extends Fragment implements View.OnClickListener {
-    String email, name, message, senderemail, receiveremail, datesent, filename, daycareaddress, daycaredescription, daycarefilename;
+    String email, name, message, senderemail, receiveremail, datesent, filename, daycareaddress,
+            daycaredescription, daycarefilename, dogfilename;
     String daycarename = "";
     UserFunctions userFunctions;
-    TextView textView1, textView2, textView3, textView4;
+    TextView textView1, textView2, textView3, textView4, textView6, textView7, textView8, textView9;
 
     private static final String getdogsurl = "http://smileowl.com/Boardmydog/getdadogs.php";
     jParser parserget = new jParser();
@@ -53,6 +53,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
     ListView lstView1;
 
 
+    ImageView imageView2, imageView3, imageView4, imageView5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,10 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         textView2 = (TextView)rootView.findViewById(R.id.textView2);
         textView3 = (TextView)rootView.findViewById(R.id.textView3);
         textView4 = (TextView)rootView.findViewById(R.id.textView4);
+        textView6 = (TextView)rootView.findViewById(R.id.textView6);
+        textView7 = (TextView)rootView.findViewById(R.id.textView7);
+        textView8 = (TextView)rootView.findViewById(R.id.textView8);
+        textView9 = (TextView)rootView.findViewById(R.id.textView9);
         textView1.setText("Email: " + email+"\n"+"Name: " + name);
         textView2.setVisibility(View.GONE);
         textView3.setVisibility(View.GONE);
@@ -98,6 +103,11 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
         button5.setOnClickListener(this);
+
+        imageView2 = (ImageView)rootView.findViewById(R.id.image1);
+        imageView3 = (ImageView)rootView.findViewById(R.id.image2);
+        imageView4 = (ImageView)rootView.findViewById(R.id.image3);
+        imageView5 = (ImageView)rootView.findViewById(R.id.image4);
 
 
         lstView1 = (ListView)rootView.findViewById(R.id.list2);
@@ -192,11 +202,14 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     JSONObject c = jArray.getJSONObject(i);
                     String dogname = c.getString("dogname");
                     daycarename = c.getString("daycarename");
+                    dogfilename = c.getString("filename");
+
 
 
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("dogname", dogname);
                     map.put("daycarename", daycarename);
+                    map.put("dogfilename", dogfilename);
 
                     dogshashmap.add(map);
                 }
@@ -273,8 +286,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(View view) {
 
-                            Toast.makeText(getActivity(), daycareaddress + "addressf: " + daycaredescription, Toast.LENGTH_LONG).show();
-
 
                             Intent i3 = new Intent(getActivity(), Updatedaycare.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
                             i3.putExtra("email", email);
@@ -294,7 +305,78 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     for (int i = 0; i < dogshashmap.size(); i++) {
                         // System.out.println(dogshashmap.get(i));
 
-                        textView2.append(dogshashmap.get(i).get("dogname") + "\n");
+                        //textView2.append(dogshashmap.get(i).get("dogname") + "\n");
+                        if (dogshashmap.get(i).get("dogfilename").length()>6){
+                            imageView2.setVisibility(View.VISIBLE);
+                            imageView3.setVisibility(View.VISIBLE);
+                            imageView4.setVisibility(View.VISIBLE);
+                            imageView5.setVisibility(View.VISIBLE);
+                            textView6.setVisibility(View.VISIBLE);
+                            textView7.setVisibility(View.VISIBLE);
+                            textView8.setVisibility(View.VISIBLE);
+                            textView9.setVisibility(View.VISIBLE);
+
+                            if (i==0 ) {
+                                imageView2.getLayoutParams().height = 100;
+                                imageView2.getLayoutParams().width = 100;
+                                imageView2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                textView6.setText(dogshashmap.get(0).get("dogname"));
+                                Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(0).get("dogfilename")).into(imageView2);
+
+                            }
+                            if (i==1) {
+                                imageView3.getLayoutParams().height = 100;
+                                imageView3.getLayoutParams().width = 100;
+                                imageView3.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                textView7.setText(dogshashmap.get(1).get("dogname"));
+                                Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(1).get("dogfilename")).into(imageView3);
+
+                            }
+                            if (i==2) {
+                                imageView4.getLayoutParams().height = 100;
+                                imageView4.getLayoutParams().width = 100;
+                                imageView4.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                textView8.setText(dogshashmap.get(2).get("dogname"));
+                                Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(2).get("dogfilename")).into(imageView4);
+
+                            }
+                            if (i==3) {
+                                imageView5.getLayoutParams().height = 100;
+                                imageView5.getLayoutParams().width = 100;
+                                imageView5.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                textView9.setText(dogshashmap.get(3).get("dogname"));
+                                Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(3).get("dogfilename")).into(imageView5);
+
+                            }
+
+                        }else{
+                            imageView2.setVisibility(View.GONE);
+                            imageView3.setVisibility(View.GONE);
+                            imageView4.setVisibility(View.GONE);
+                            imageView5.setVisibility(View.GONE);
+                            textView6.setVisibility(View.GONE);
+                            textView7.setVisibility(View.GONE);
+                            textView8.setVisibility(View.GONE);
+                            textView9.setVisibility(View.GONE);
+                        }
+
+
+
+                        imageView2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                                Intent i5 = new Intent(getActivity(), BigPicture.class);
+                                i5.putExtra("filename",  dogshashmap.get(0).get("dogfilename"));
+                                startActivityForResult(i5,100);
+
+
+                            }
+                        });
+
+
 
                     }
                     for (int i = 0; i < eventmap.size(); i++) {

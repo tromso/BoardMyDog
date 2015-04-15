@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -97,6 +98,7 @@ public class Addinfo extends Activity {
         protected void onPostExecute(String zoom) {
             runOnUiThread(new Runnable() {
                 public void run() {
+                    Toast.makeText(getApplicationContext(), "Your information was updated", Toast.LENGTH_LONG).show();
                     finish();
                 }
             });

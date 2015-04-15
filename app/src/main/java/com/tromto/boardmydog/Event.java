@@ -14,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -54,7 +53,7 @@ public class Event extends Activity {
 
         lstView1 = (ListView)findViewById(R.id.list2);
 
-        Toast.makeText(this, "daycare is " + daycarename, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "daycare is " + daycarename, Toast.LENGTH_LONG).show();
 
         new GetDaReservations().execute();
 
