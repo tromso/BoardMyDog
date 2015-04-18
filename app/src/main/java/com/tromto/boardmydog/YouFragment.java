@@ -35,7 +35,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             daycaredescription, daycarefilename, dogfilename;
     String daycarename = "";
     UserFunctions userFunctions;
-    TextView textView1, textView2, textView3, textView4, textView6, textView7, textView8, textView9;
+    TextView textView2, textView3, textView4, textView6, textView7, textView8, textView9;
 
     private static final String getdogsurl = "http://smileowl.com/Boardmydog/getdadogs.php";
     jParser parserget = new jParser();
@@ -44,7 +44,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
     JSONArray jArray3 = null;
     JSONArray jArray4 = null;
     ArrayList<HashMap<String, String>> dogshashmap, eventmap, messagemap;
-    Button button1, button2, button3, button4, button5;
+    Button button1, button2, button3, button5;
     private static final String TAG = "MyActivity";
     private static final String TAG_SUCCESS = "success";
     int success;
@@ -73,16 +73,13 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
         new GetDaDogs().execute();
 
-        textView1 = (TextView)rootView.findViewById(R.id.textView1);
-        textView2 = (TextView)rootView.findViewById(R.id.textView2);
+       // textView2 = (TextView)rootView.findViewById(R.id.textView2);
         textView3 = (TextView)rootView.findViewById(R.id.textView3);
         textView4 = (TextView)rootView.findViewById(R.id.textView4);
         textView6 = (TextView)rootView.findViewById(R.id.textView6);
         textView7 = (TextView)rootView.findViewById(R.id.textView7);
         textView8 = (TextView)rootView.findViewById(R.id.textView8);
         textView9 = (TextView)rootView.findViewById(R.id.textView9);
-        textView1.setText("Email: " + email+"\n"+"Name: " + name);
-        textView2.setVisibility(View.GONE);
         textView3.setVisibility(View.GONE);
        // textView4.setVisibility(View.GONE);
 
@@ -91,17 +88,14 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         button1 = (Button)rootView.findViewById(R.id.button1);
         button2 = (Button)rootView.findViewById(R.id.button2);
         button3 = (Button)rootView.findViewById(R.id.button3);
-        button4 = (Button)rootView.findViewById(R.id.button4);
         button5 = (Button)rootView.findViewById(R.id.button5);
         button1.setVisibility(View.GONE);
         button2.setVisibility(View.GONE);
         button3.setVisibility(View.GONE);
-        button4.setVisibility(View.GONE);
         button5.setVisibility(View.GONE);
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
         button5.setOnClickListener(this);
 
         imageView2 = (ImageView)rootView.findViewById(R.id.image1);
@@ -276,29 +270,25 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         getActivity().runOnUiThread(new Runnable() {
             public void run() {
 
-
                 if (daycarename.equals("0") || daycarename.equals("")) {
                     //not owner
-                    // Toast.makeText(getActivity(), daycarename +"you are not owner, just a mortal", Toast.LENGTH_LONG).show();
-
-                    textView4.setText("Your dog: ");
-
                     button1.setVisibility(View.VISIBLE);
                     button2.setVisibility(View.VISIBLE);
-                    textView2.setVisibility(View.VISIBLE);
-                    //textView4.setVisibility(View.VISIBLE);
-
 
 
                 } else {
-
                     //owner
-                    //Toast.makeText(getActivity(),email +"is the admin of: " +daycarename , Toast.LENGTH_LONG).show();
-
                     textView4.setText("Latest reservations: ");
                     button3.setVisibility(View.VISIBLE);
                     textView3.setVisibility(View.VISIBLE);
                     button5.setVisibility(View.VISIBLE);
+
+                    for (int i = 0; i < eventmap.size(); i++) {
+
+                        textView3.append(eventmap.get(i).get("dog0")+" From "+ eventmap.get(i).get("startdate")
+                                + " to "+eventmap.get(i).get("enddate") + "\n");
+
+                    }
 
                     button3.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -317,14 +307,13 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                         }
                     });
                 }
-                if (success == 1) {
+                if (success == 1 && daycarename.equals("0") || daycarename.equals("")) {
 
 
                     for (int i = 0; i < dogshashmap.size(); i++) {
-                        // System.out.println(dogshashmap.get(i));
 
-                        //textView2.append(dogshashmap.get(i).get("dogname") + "\n");
-                        if (dogshashmap.get(i).get("dogfilename").length()>6){
+
+                        if (dogshashmap.get(i).get("dogname").length()>1){
                             imageView2.setVisibility(View.VISIBLE);
                             imageView3.setVisibility(View.VISIBLE);
                             imageView4.setVisibility(View.VISIBLE);
@@ -333,6 +322,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                             textView7.setVisibility(View.VISIBLE);
                             textView8.setVisibility(View.VISIBLE);
                             textView9.setVisibility(View.VISIBLE);
+
 
                             if (i==0 ) {
                                 imageView2.getLayoutParams().height = 100;
@@ -472,40 +462,18 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                             imageView3.setVisibility(View.GONE);
                             imageView4.setVisibility(View.GONE);
                             imageView5.setVisibility(View.GONE);
-                            textView6.setVisibility(View.GONE);
-                            textView7.setVisibility(View.GONE);
-                            textView8.setVisibility(View.GONE);
-                            textView9.setVisibility(View.GONE);
                         }
 
-
-
-
-
-
-
                     }
-                    for (int i = 0; i < eventmap.size(); i++) {
-                        // System.out.println(dogshashmap.get(i));
-
-                        textView3.append(eventmap.get(i).get("dog0")+" From "+ eventmap.get(i).get("startdate")
-                                + " to "+eventmap.get(i).get("enddate") + "\n");
-
-                    }
-
 
                 }
 
                     mAdapter = new ImageAdapter(getActivity(), messagemap);
                     lstView1.setAdapter(mAdapter);
 
-
-
-
             }
         });
     }
-
 
 }
     public class ImageAdapter extends BaseAdapter {
@@ -552,8 +520,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             }else{
                 imageView.setVisibility(View.GONE);
             }
-            imageView.getLayoutParams().height = 100;
-            imageView.getLayoutParams().width = 100;
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
 
@@ -579,12 +545,9 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             //txtGenre.setPadding(10, 0, 0, 0);
             txtGenre.setText( movies.get(position).get("message"));
 
-
-
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
 
                     Intent i5 = new Intent(getActivity(), Messagethread.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i5.putExtra("email", email);
@@ -593,7 +556,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
                 }
             });
-
 
             return convertView;
         }

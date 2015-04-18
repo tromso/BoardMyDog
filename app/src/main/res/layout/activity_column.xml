@@ -10,9 +10,9 @@ android:layout_height="match_parent">
 <ImageView
     android:id="@+id/image1"
     android:layout_width="80dp"
-    android:layout_height="80dp"
+    android:layout_height="160dp"
     android:visibility="gone"
-    android:layout_weight="1"
+    android:layout_weight="2"
 
     />
 
@@ -22,7 +22,10 @@ android:layout_height="match_parent">
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:textStyle="bold"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:paddingLeft="5dp"
     />
+
     </LinearLayout>
 
 <TextView
