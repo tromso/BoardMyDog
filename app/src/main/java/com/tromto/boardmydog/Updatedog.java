@@ -23,11 +23,11 @@ public class Updatedog extends Activity {
     String email;
     EditText editText1, editText2, editText3, editText4, editText5, editText6, editText7, editText8;
     jParser2 parser = new jParser2();
-    String dogname, breed, weight, gender, age, neutered, sociable, other, vet, vetphone;
+    String dogname, breed, weight, gender, age, neutered, sociable, other, vet, vetphone, filename;
     private Button button1;
     private RadioGroup radioSexGroup;
     private RadioGroup radiospayed;
-    private static String urlNew = "http://smileowl.com/Boardmydog/insertdogs.php";
+    private static String urlNew = "http://smileowl.com/Boardmydog/updatedadoginfo.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,19 @@ public class Updatedog extends Activity {
 
         Bundle extras = this.getIntent().getExtras();
         email = extras.getString("email");
+        filename = extras.getString("filename");
+        dogname = extras.getString("dogname");
+        breed = extras.getString("breed");
+        weight = extras.getString("weight");
+        gender = extras.getString("gender");
+        age = extras.getString("age");
+        neutered = extras.getString("neutered");
+        sociable = extras.getString("sociable");
+        other = extras.getString("other");
+        vet = extras.getString("vet");
+        vetphone = extras.getString("vetphone");
+
+
         //Toast.makeText(getApplicationContext(), email, Toast.LENGTH_LONG).show();
         editText1 = (EditText)findViewById(R.id.editText1);
         editText2 = (EditText)findViewById(R.id.editText2);
@@ -45,8 +58,32 @@ public class Updatedog extends Activity {
         editText7 = (EditText)findViewById(R.id.editText7);
         editText8 = (EditText)findViewById(R.id.editText8);
 
+        editText1.setText(dogname);
+        editText2.setText(breed);
+        editText3.setText(weight);
+        editText4.setText(age);
+        editText5.setText(sociable);
+        editText6.setText(other);
+        editText7.setText(vet);
+        editText8.setText(vetphone);
+
+
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        if(gender.equals("Male")) {
+            radioSexGroup.check(R.id.radioMale);
+        }
+        else {
+            radioSexGroup.check(R.id.radioFemale);
+        }
+
+
         radiospayed = (RadioGroup) findViewById(R.id.radiospayed);
+        if(neutered.equals("yes")) {
+            radiospayed.check(R.id.radioyes);
+        }
+        else {
+            radiospayed.check(R.id.radiono);
+        }
 
         radioSexGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -93,13 +130,13 @@ public class Updatedog extends Activity {
             @Override
             public void onClick(View view) {
 
-                new AddDaDog().execute();
+                new UpdateDaDog().execute();
             }
         });
 
     }
 
-    class AddDaDog extends AsyncTask<String, String, String> {
+    class UpdateDaDog extends AsyncTask<String, String, String> {
 
         String dogname = editText1.getText().toString();
         String breed= editText2.getText().toString();

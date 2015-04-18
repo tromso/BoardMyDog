@@ -203,13 +203,31 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     String dogname = c.getString("dogname");
                     daycarename = c.getString("daycarename");
                     dogfilename = c.getString("filename");
-
+                    String breed = c.getString("breed");
+                    String weight = c.getString("weight");
+                    String gender = c.getString("gender");
+                    String age = c.getString("age");
+                    String neutered = c.getString("neutered");
+                    String sociable = c.getString("sociable");
+                    String other = c.getString("other");
+                    String vet = c.getString("vet");
+                    String vetphone = c.getString("vetphone");
 
 
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("dogname", dogname);
                     map.put("daycarename", daycarename);
                     map.put("dogfilename", dogfilename);
+                    map.put("breed", breed);
+                    map.put("weight", weight);
+                    map.put("gender", gender);
+                    map.put("age", age);
+                    map.put("neutered", neutered);
+                    map.put("sociable", sociable);
+                    map.put("other", other);
+                    map.put("vet", vet);
+                    map.put("vetphone", vetphone);
+
 
                     dogshashmap.add(map);
                 }
@@ -287,7 +305,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                         public void onClick(View view) {
 
 
-                            Intent i3 = new Intent(getActivity(), Updatedaycare.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
+                            Intent i3 = new Intent(getActivity(), Updatedaycare.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             i3.putExtra("email", email);
                             i3.putExtra("daycarename", daycarename);
                             i3.putExtra("daycareaddress", daycareaddress);
@@ -323,6 +341,31 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 textView6.setText(dogshashmap.get(0).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(0).get("dogfilename")).into(imageView2);
 
+                                imageView2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                                        Intent i5 = new Intent(getActivity(), Updatedog.class);
+                                        i5.putExtra("filename",  dogshashmap.get(0).get("dogfilename"));
+                                        i5.putExtra("dogname",  dogshashmap.get(0).get("dogname"));
+                                        i5.putExtra("breed",  dogshashmap.get(0).get("breed"));
+                                        i5.putExtra("weight",  dogshashmap.get(0).get("weight"));
+                                        i5.putExtra("gender",  dogshashmap.get(0).get("gender"));
+                                        i5.putExtra("age",  dogshashmap.get(0).get("age"));
+                                        i5.putExtra("neutered",  dogshashmap.get(0).get("neutered"));
+                                        i5.putExtra("sociable",  dogshashmap.get(0).get("sociable"));
+                                        i5.putExtra("other",  dogshashmap.get(0).get("other"));
+                                        i5.putExtra("vet",  dogshashmap.get(0).get("vet"));
+                                        i5.putExtra("vetphone",  dogshashmap.get(0).get("vetphone"));
+                                        i5.putExtra("email",  email);
+
+                                        startActivityForResult(i5,100);
+
+
+                                    }
+                                });
                             }
                             if (i==1) {
                                 imageView3.getLayoutParams().height = 100;
@@ -331,6 +374,31 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 textView7.setText(dogshashmap.get(1).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(1).get("dogfilename")).into(imageView3);
 
+                                imageView3.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                                        Intent i5 = new Intent(getActivity(), Updatedog.class);
+                                        i5.putExtra("filename",  dogshashmap.get(1).get("dogfilename"));
+                                        i5.putExtra("dogname",  dogshashmap.get(1).get("dogname"));
+                                        i5.putExtra("breed",  dogshashmap.get(1).get("breed"));
+                                        i5.putExtra("weight",  dogshashmap.get(1).get("weight"));
+                                        i5.putExtra("gender",  dogshashmap.get(1).get("gender"));
+                                        i5.putExtra("age",  dogshashmap.get(1).get("age"));
+                                        i5.putExtra("neutered",  dogshashmap.get(1).get("neutered"));
+                                        i5.putExtra("sociable",  dogshashmap.get(1).get("sociable"));
+                                        i5.putExtra("other",  dogshashmap.get(1).get("other"));
+                                        i5.putExtra("vet",  dogshashmap.get(1).get("vet"));
+                                        i5.putExtra("vetphone",  dogshashmap.get(1).get("vetphone"));
+                                        i5.putExtra("email",  email);
+
+                                        startActivityForResult(i5,100);
+
+
+                                    }
+                                });
                             }
                             if (i==2) {
                                 imageView4.getLayoutParams().height = 100;
@@ -339,6 +407,31 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 textView8.setText(dogshashmap.get(2).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(2).get("dogfilename")).into(imageView4);
 
+                                imageView4.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                                        Intent i5 = new Intent(getActivity(), Updatedog.class);
+                                        i5.putExtra("filename",  dogshashmap.get(2).get("dogfilename"));
+                                        i5.putExtra("dogname",  dogshashmap.get(2).get("dogname"));
+                                        i5.putExtra("breed",  dogshashmap.get(2).get("breed"));
+                                        i5.putExtra("weight",  dogshashmap.get(2).get("weight"));
+                                        i5.putExtra("gender",  dogshashmap.get(2).get("gender"));
+                                        i5.putExtra("age",  dogshashmap.get(2).get("age"));
+                                        i5.putExtra("neutered",  dogshashmap.get(2).get("neutered"));
+                                        i5.putExtra("sociable",  dogshashmap.get(2).get("sociable"));
+                                        i5.putExtra("other",  dogshashmap.get(2).get("other"));
+                                        i5.putExtra("vet",  dogshashmap.get(2).get("vet"));
+                                        i5.putExtra("vetphone",  dogshashmap.get(2).get("vetphone"));
+                                        i5.putExtra("email",  email);
+
+                                        startActivityForResult(i5,100);
+
+
+                                    }
+                                });
                             }
                             if (i==3) {
                                 imageView5.getLayoutParams().height = 100;
@@ -347,6 +440,31 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 textView9.setText(dogshashmap.get(3).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(3).get("dogfilename")).into(imageView5);
 
+                                imageView5.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                                        Intent i5 = new Intent(getActivity(), Updatedog.class);
+                                        i5.putExtra("filename",  dogshashmap.get(3).get("dogfilename"));
+                                        i5.putExtra("dogname",  dogshashmap.get(3).get("dogname"));
+                                        i5.putExtra("breed",  dogshashmap.get(3).get("breed"));
+                                        i5.putExtra("weight",  dogshashmap.get(3).get("weight"));
+                                        i5.putExtra("gender",  dogshashmap.get(3).get("gender"));
+                                        i5.putExtra("age",  dogshashmap.get(3).get("age"));
+                                        i5.putExtra("neutered",  dogshashmap.get(3).get("neutered"));
+                                        i5.putExtra("sociable",  dogshashmap.get(3).get("sociable"));
+                                        i5.putExtra("other",  dogshashmap.get(3).get("other"));
+                                        i5.putExtra("vet",  dogshashmap.get(3).get("vet"));
+                                        i5.putExtra("vetphone",  dogshashmap.get(3).get("vetphone"));
+                                        i5.putExtra("email",  email);
+
+                                        startActivityForResult(i5,100);
+
+
+                                    }
+                                });
                             }
 
                         }else{
@@ -362,19 +480,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
 
 
-                        imageView2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
 
-                                //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
-
-                                Intent i5 = new Intent(getActivity(), BigPicture.class);
-                                i5.putExtra("filename",  dogshashmap.get(0).get("dogfilename"));
-                                startActivityForResult(i5,100);
-
-
-                            }
-                        });
 
 
 
@@ -439,17 +545,16 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             }
             //colimage
             ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
-            //imageView.getLayoutParams().height = 100;
-            //imageView.getLayoutParams().width = 100;
-            // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            //mImageFetcher.loadImage(movies.get(position).get("poster"),
-            //imageView);
+
 
             if (movies.get(position).get("filename").length()>6){
                 imageView.setVisibility(View.VISIBLE);
             }else{
                 imageView.setVisibility(View.GONE);
             }
+            imageView.getLayoutParams().height = 100;
+            imageView.getLayoutParams().width = 100;
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
 
             imageView.setOnClickListener(new View.OnClickListener() {

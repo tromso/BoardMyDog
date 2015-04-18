@@ -223,6 +223,9 @@ public class Event extends Activity {
             }else{
                 imageView.setVisibility(View.GONE);
             }
+            imageView.getLayoutParams().height = 100;
+            imageView.getLayoutParams().width = 100;
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(context).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + movies.get(position).get("filename")).into(imageView);
 
             TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);

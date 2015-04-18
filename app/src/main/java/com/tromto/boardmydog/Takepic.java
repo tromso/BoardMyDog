@@ -64,14 +64,10 @@ public class Takepic extends Activity {
        String sbutt = intent.getStringExtra("butt");
         butt = Integer.parseInt(sbutt);
         if(butt==1){
-
-            Log.i(TAG, "onActivityResult: " +"butt"+ this);
             takePhoto();
 
         }
         else if(butt==2){
-
-            Log.i(TAG, "onActivityResult: " +"butt"+ this);
             selectPhoto();
 
         }
@@ -130,14 +126,36 @@ public class Takepic extends Activity {
                 cursor.close();
                 //ImageView imgView = (ImageView) findViewById(R.id.imageView1);
                 // Set the Image in ImageView after decoding the String
+     //
+            int targetW = mImageView.getLayoutParams().width;
+            int targetH = mImageView.getLayoutParams().height;
 
-            Bitmap z;
-            z = BitmapFactory
-                    .decodeFile(imgDecodableString);
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(imgDecodableString, bmOptions);
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            Log.v(TAG, Integer.toString(targetW) + Integer.toString(targetH)
+                    +Integer.toString(photoW)+Integer.toString(photoH));
+            Toast.makeText(Takepic.this, Integer.toString(targetW) + Integer.toString(targetH)
+                    +Integer.toString(photoW)+Integer.toString(photoH), Toast.LENGTH_LONG).show();
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor << 1;
+            bmOptions.inPurgeable = true;
+
+            Bitmap bitmap = BitmapFactory.decodeFile(imgDecodableString, bmOptions);
+
+//
 
 				try {
 
-				sendPhoto(z);
+				sendPhoto(bitmap);
                     Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
 
 			} catch (Exception e) {
@@ -281,6 +299,13 @@ public class Takepic extends Activity {
         super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
     }
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // TODO Auto-generated method stub
+        super.onWindowFocusChanged(hasFocus);
+
+
+
+    }
 
 
 
@@ -327,8 +352,10 @@ public class Takepic extends Activity {
 
     private boolean setPic() {
         // Get the dimensions of the View
-        int targetW = mImageView.getWidth();
-        int targetH = mImageView.getHeight();
+        //int targetW = mImageView.getWidth();
+        //int targetH = mImageView.getHeight();
+        int targetW = mImageView.getLayoutParams().width;
+        int targetH = mImageView.getLayoutParams().height;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -337,10 +364,12 @@ public class Takepic extends Activity {
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
 
+        Log.v(TAG, Integer.toString(targetW) + Integer.toString(targetH)
+                +Integer.toString(photoW)+Integer.toString(photoH));
+        Toast.makeText(Takepic.this, Integer.toString(targetW) + Integer.toString(targetH)
+                +Integer.toString(photoW)+Integer.toString(photoH), Toast.LENGTH_LONG).show();
         // Determine how much to scale down the image
-        int scaleFactor = 4;
-                //Math.min(photoW/targetW, photoH/t
-                // argetH);
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
