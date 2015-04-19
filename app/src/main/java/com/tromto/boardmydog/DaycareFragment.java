@@ -229,13 +229,13 @@ public class DaycareFragment extends Fragment {
 
 
             TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
-            //txtPoster.setPadding(10, 0, 0, 0);
-           // txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
+            txtPoster.setPadding(10, 0, 0, 0);
+           txtPoster.setText( movies.get(position).get("address")+"\n"+movies.get(position).get("description"));
 
 
             TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
-            txtGenre.setText( movies.get(position).get("daycarename")+"\n"+ movies.get(position).get("address")+"\n"+movies.get(position).get("description"));
-
+            txtGenre.setText( movies.get(position).get("daycarename"));
+            txtGenre.setPadding(10, 0, 0, 0);
 
 
             convertView.setOnClickListener(new View.OnClickListener() {

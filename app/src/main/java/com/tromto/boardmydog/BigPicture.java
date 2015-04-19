@@ -18,8 +18,16 @@ public class BigPicture extends Activity {
 
         Bundle extras = this.getIntent().getExtras();
         String filename = extras.getString("filename");
+        String filenamedog = extras.getString("filenamedog");
 
-        ImageView imageView = (ImageView)findViewById(R.id.imageView1);
-        Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + filename).into(imageView);
+        if(filename != null && !filename.isEmpty()) {
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + filename).into(imageView);
+        }
+        else if(filenamedog != null && !filenamedog.isEmpty()) {
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + filenamedog).into(imageView);
+
+        }
     }
 }

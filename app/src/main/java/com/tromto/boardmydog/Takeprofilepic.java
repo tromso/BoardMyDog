@@ -102,7 +102,7 @@ public class Takeprofilepic extends Activity {
             if(setPic()) {
                 finish();
                 Log.i(TAG, "a mers cu poza " + this);
-                Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Picture uploaded", Toast.LENGTH_LONG).show();
             }
 
         }
@@ -136,7 +136,7 @@ public class Takeprofilepic extends Activity {
 				try {
 
 				sendPhoto(z);
-                    Toast.makeText(this, "Picture sent", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Picture uploaded", Toast.LENGTH_LONG).show();
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -148,7 +148,7 @@ public class Takeprofilepic extends Activity {
                 Toast.makeText(this, "You haven't picked Image",
                         Toast.LENGTH_LONG).show();
             }
-        finish();
+
 
     }
 
@@ -161,13 +161,7 @@ public class Takeprofilepic extends Activity {
         protected Void doInBackground(Bitmap... bitmaps) {
             if (bitmaps[0] == null)
                 return null;
-
-
-
-
-
             setProgress(0);
-
             Bitmap bitmap = bitmaps[0];
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream); // convert Bitmap to ByteArrayOutputStream
@@ -250,7 +244,9 @@ public class Takeprofilepic extends Activity {
         protected void onPostExecute(Void result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
-           // Toast.makeText(MainActivity.this, R.string.uploaded, Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
         }
     }
 

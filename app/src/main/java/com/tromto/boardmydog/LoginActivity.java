@@ -101,7 +101,7 @@ public class LoginActivity extends Activity {
                     if(Integer.parseInt(res) == 1){
                         // user successfully logged in
                         // Store user details in SQLite Database
-                        amers = "B";
+                        amers = "Logging in";
                         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
                         JSONObject json_user = json.getJSONObject("user");
 
@@ -113,7 +113,7 @@ public class LoginActivity extends Activity {
                     }else{
                         // Error in login
                        // loginErrorMsg.setText("Incorrect username/password");
-                        amers ="C";
+                        amers ="Wrong password/username!";
                     }
                 }
             } catch (JSONException e) {

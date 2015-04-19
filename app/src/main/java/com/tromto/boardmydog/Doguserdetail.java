@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -158,6 +159,20 @@ public class Doguserdetail extends Activity {
 
                     ImageView imageView = (ImageView) findViewById(R.id.image1);
                     Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogusermap.get(0).get("filename")).into(imageView);
+                    //final String xp = "http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogusermap.get(0).get("filename");
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                            Intent i5 = new Intent(getApplicationContext(), BigPicture.class);
+                            i5.putExtra("filenamedog",  dogusermap.get(0).get("filename"));
+                            startActivityForResult(i5,100);
+
+
+                        }
+                    });
 
                     tv0 = (TextView) findViewById(R.id.textView0);
                     tv1 = (TextView) findViewById(R.id.textView1);

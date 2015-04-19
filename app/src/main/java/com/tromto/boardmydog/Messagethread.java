@@ -1,21 +1,26 @@
 package com.tromto.boardmydog;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -30,9 +35,9 @@ import java.util.List;
 /**
  * Created by k on 3/13/15.
  */
-public class Messagethread extends ListActivity{
+public class Messagethread extends Activity {
 
-    String email, from, message, senderemail, receiveremail, datesent;
+    String email, from, message, senderemail, receiveremail, datesent, filename;
     jParser parserget = new jParser();
     JSONArray jArray3 = null;
     jParser2 parser = new jParser2();
@@ -47,12 +52,16 @@ public class Messagethread extends ListActivity{
     private Button mTakePhoto, button2;
     String butt;
 
+    private ImageAdapter mAdapter;
+    ListView lstView1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messagethread);
 
+        lstView1 = (ListView)findViewById(R.id.list2);
 
 
         Intent intent = getIntent();
@@ -175,6 +184,7 @@ public class Messagethread extends ListActivity{
                         senderemail = c.getString("senderemail");
                         receiveremail = c.getString("receiveremail");
                         datesent = c.getString("datesent");
+                        filename = c.getString("filename");
 
 
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -182,6 +192,7 @@ public class Messagethread extends ListActivity{
                         map.put("senderemail", senderemail);
                         map.put("receiveremail", receiveremail);
                         map.put("datesent", datesent);
+                        map.put("filename", filename);
 
                         messagemap.add(map);
                     }
@@ -205,6 +216,10 @@ public class Messagethread extends ListActivity{
                     if (success == 1) {
 
 
+                        mAdapter = new ImageAdapter(getApplicationContext(), messagemap);
+                        lstView1.setAdapter(mAdapter);
+
+                        /*
                         ListAdapter adapter = new SimpleAdapter(Messagethread.this, messagemap,
                                 R.layout.list, new String[]{"senderemail", "message", "datesent"},
                                 new int[]{R.id.textView1, R.id.textView2, R.id.textView3});
@@ -213,7 +228,7 @@ public class Messagethread extends ListActivity{
 
                         setListAdapter(adapter);
                         ListView lv = getListView();
-                        /*
+
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                             @Override
@@ -254,14 +269,17 @@ public class Messagethread extends ListActivity{
         @Override
         protected String doInBackground(String... args) {
 
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("message", mess));
-            params.add(new BasicNameValuePair("from", from));
-            params.add(new BasicNameValuePair("email", email));
+            if (mess.length()>1) {
+
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("message", mess));
+                params.add(new BasicNameValuePair("from", from));
+                params.add(new BasicNameValuePair("email", email));
 
 
-            @SuppressWarnings("unused")
-            JSONObject json = parser.makeHttpRequest(smileowlurl, params);
+                @SuppressWarnings("unused")
+                JSONObject json = parser.makeHttpRequest(smileowlurl, params);
+            }
 
             return null;
         }
@@ -269,15 +287,103 @@ public class Messagethread extends ListActivity{
         protected void onPostExecute(String zoom) {
             pDialog.dismiss();
 
-            Messagethread.this.runOnUiThread(new Runnable() {
-                public void run() {
+            if (mess.length()>1) {
+                Messagethread.this.runOnUiThread(new Runnable() {
+                    public void run() {
 
-                    Toast.makeText(getApplicationContext(), "message sent", Toast.LENGTH_LONG).show();
-                    finish();
+                        Toast.makeText(getApplicationContext(), "message sent", Toast.LENGTH_LONG).show();
+                        finish();
+
+
+                    }
+                });
+            }else{
+
+                Toast.makeText(getApplicationContext(), "You didn't write anything", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    public class ImageAdapter extends BaseAdapter {
+
+        private Context context;
+        private ArrayList<HashMap<String, String>> movies = new ArrayList<HashMap<String, String>>();
+
+        public ImageAdapter(Context c, ArrayList<HashMap<String, String>> list){
+            context = c;
+            movies = list;
+
+        }
+
+        @Override
+        public int getCount() {
+            return movies.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (convertView == null){
+                convertView = inflater.inflate(R.layout.threadadaptor, null);
+            }
+            //colimage
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
+
+
+            if (movies.get(position).get("filename").length()>6){
+                imageView.setVisibility(View.VISIBLE);
+            }else{
+                imageView.setVisibility(View.GONE);
+            }
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+
+                    Intent i5 = new Intent(getApplicationContext(), BigPicture.class);
+                    i5.putExtra("filename",  movies.get(position).get("filename"));
+                    startActivityForResult(i5,100);
 
 
                 }
             });
+            TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
+            //txtPoster.setPadding(10, 0, 0, 0);
+            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
+
+
+            TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
+            //txtGenre.setPadding(10, 0, 0, 0);
+            txtGenre.setText( movies.get(position).get("message"));
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent i5 = new Intent(getApplicationContext(), BigPicture.class);
+                    i5.putExtra("filename",  movies.get(position).get("filename"));
+                    startActivityForResult(i5,100);
+
+                }
+            });
+
+            return convertView;
         }
     }
 }

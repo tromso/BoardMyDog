@@ -325,8 +325,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
 
                             if (i==0 ) {
-                                imageView2.getLayoutParams().height = 100;
-                                imageView2.getLayoutParams().width = 100;
+                                imageView2.getLayoutParams().height = 120;
+                                imageView2.getLayoutParams().width = 120;
                                 imageView2.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView6.setText(dogshashmap.get(0).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(0).get("dogfilename")).into(imageView2);
@@ -358,8 +358,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 });
                             }
                             if (i==1) {
-                                imageView3.getLayoutParams().height = 100;
-                                imageView3.getLayoutParams().width = 100;
+                                imageView3.getLayoutParams().height = 120;
+                                imageView3.getLayoutParams().width = 120;
                                 imageView3.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView7.setText(dogshashmap.get(1).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(1).get("dogfilename")).into(imageView3);
@@ -391,8 +391,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 });
                             }
                             if (i==2) {
-                                imageView4.getLayoutParams().height = 100;
-                                imageView4.getLayoutParams().width = 100;
+                                imageView4.getLayoutParams().height = 120;
+                                imageView4.getLayoutParams().width = 120;
                                 imageView4.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView8.setText(dogshashmap.get(2).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(2).get("dogfilename")).into(imageView4);
@@ -424,8 +424,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 });
                             }
                             if (i==3) {
-                                imageView5.getLayoutParams().height = 100;
-                                imageView5.getLayoutParams().width = 100;
+                                imageView5.getLayoutParams().height = 120;
+                                imageView5.getLayoutParams().width = 120;
                                 imageView5.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView9.setText(dogshashmap.get(3).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(3).get("dogfilename")).into(imageView5);
@@ -541,9 +541,15 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
 
 
-            TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
-            //txtGenre.setPadding(10, 0, 0, 0);
-            txtGenre.setText( movies.get(position).get("message"));
+            TextView messagedisplayed = (TextView) convertView.findViewById(R.id.textView4);
+            if (movies.get(position).get("message")!="New picture"){
+                messagedisplayed.setVisibility(View.VISIBLE);
+                messagedisplayed.setText( movies.get(position).get("message"));
+            }else{
+                messagedisplayed.setVisibility(View.GONE);
+            }
+
+
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

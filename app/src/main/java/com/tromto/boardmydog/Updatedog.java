@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,11 +31,12 @@ public class Updatedog extends Activity {
     private Button button1;
     private RadioGroup radioSexGroup;
     private RadioGroup radiospayed;
+    ImageView imageView;
     private static String urlNew = "http://smileowl.com/Boardmydog/updatedadoginfo.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.adddog);
+        setContentView(R.layout.updatedog);
 
         Bundle extras = this.getIntent().getExtras();
         email = extras.getString("email");
@@ -66,6 +71,27 @@ public class Updatedog extends Activity {
         editText6.setText(other);
         editText7.setText(vet);
         editText8.setText(vetphone);
+
+        //Toast.makeText(this, filename, Toast.LENGTH_LONG).show();
+        //t.show();
+        imageView =(ImageView)findViewById(R.id.imageView);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Picasso.with(getApplicationContext()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/"+filename).into(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Toast.makeText(getActivity(),  "evrika" + movies.get(position).get("filename"), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(Updatedog.this, Dogtoprofile.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra("email", email);
+                i.putExtra("dogname", dogname);
+                startActivityForResult(i,100);
+                finish();
+
+
+            }
+        });
 
 
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
@@ -180,13 +206,10 @@ public class Updatedog extends Activity {
                 public void run() {
 
 
-                    Intent i = new Intent(Updatedog.this, Dogtoprofile.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.putExtra("email", email);
-                    i.putExtra("dogname", dogname);
-                    startActivityForResult(i,100);
 
-                   // Toast t = Toast.makeText(getApplicationContext()," 00 "+ email + dogname + neutered + gender, Toast.LENGTH_LONG);
-                    //t.show();
+
+                   Toast t = Toast.makeText(getApplicationContext(),"Info updated", Toast.LENGTH_LONG);
+                   t.show();
 
 
                 }

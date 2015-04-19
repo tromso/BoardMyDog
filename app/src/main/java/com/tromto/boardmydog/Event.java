@@ -208,7 +208,7 @@ public class Event extends Activity {
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if (convertView == null){
-                convertView = inflater.inflate(R.layout.activity_column, null);
+                convertView = inflater.inflate(R.layout.reservations, null);
             }
             //colimage
             ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);

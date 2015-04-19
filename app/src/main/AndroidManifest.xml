@@ -44,7 +44,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".Addinfo"
@@ -72,13 +73,15 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="Login Account" >
+            android:label="Login Account"
+            android:configChanges="orientation|screenSize">
         </activity>
 
         <!-- Register Activity -->
         <activity
             android:name=".RegisterActivity"
-            android:label="Register New Account" >
+            android:label="Register New Account"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".DemoActivity"
