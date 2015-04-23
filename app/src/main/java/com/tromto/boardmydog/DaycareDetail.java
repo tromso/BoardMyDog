@@ -49,7 +49,7 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
     static final int DATE_DIALOG_ID_1 = 999;
     static final int DATE_DIALOG_ID_2 = 998;
 
-    private TextView checkin, checkout;
+    private TextView checkin, checkout, f1, f2;
     private Button checkinbutton, checkoutbutton, message;
     private ProgressDialog pDialog;
 
@@ -88,6 +88,8 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
 
         checkin = (TextView) findViewById(R.id.tvDate);
         checkout = (TextView) findViewById(R.id.tvDate2);
+        f1 = (TextView) findViewById(R.id.f1);
+        f2 = (TextView) findViewById(R.id.f2);
         checkinbutton = (Button) findViewById(R.id.btnChangeDate);
         checkoutbutton = (Button) findViewById(R.id.btnChangeDate2);
         message = (Button) findViewById(R.id.message);
@@ -109,6 +111,14 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
 
         checkout.setText(new StringBuilder().append(year)
                 .append("-").append(month+1).append("-").append(day)
+                .append(" "));
+
+        f1.setText(new StringBuilder().append(month+1)
+                .append("/").append(day).append("/").append(year)
+                .append(" "));
+
+        f2.setText(new StringBuilder().append(month+1)
+                .append("/").append(day).append("/").append(year)
                 .append(" "));
 
         // Button listener to show date picker dialog
@@ -249,6 +259,11 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
             checkin.setText(new StringBuilder().append(year)
                     .append("-").append(month+1).append("-").append(day)
                     .append(" "));
+            f1.setText(new StringBuilder().append(month+1)
+                    .append("/").append(day).append("/").append(year)
+                    .append(" "));
+
+
 
         }
     };
@@ -266,6 +281,10 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
             // Show selected date
             checkout.setText(new StringBuilder().append(year)
                     .append("-").append(month+1).append("-").append(day)
+                    .append(" "));
+
+            f2.setText(new StringBuilder().append(month+1)
+                    .append("/").append(day).append("/").append(year)
                     .append(" "));
 
         }
@@ -292,30 +311,37 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
         @Override
         protected String doInBackground(String... args) {
 
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("message", mess));
-            params.add(new BasicNameValuePair("daycareadminemail", daycareadminemail));
-            params.add(new BasicNameValuePair("senderemail", email));
+            if (mess.length()>1) {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("message", mess));
+                params.add(new BasicNameValuePair("daycareadminemail", daycareadminemail));
+                params.add(new BasicNameValuePair("senderemail", email));
 
 
-            @SuppressWarnings("unused")
-            JSONObject json = parser.makeHttpRequest(smileowlurl, params);
+                @SuppressWarnings("unused")
+                JSONObject json = parser.makeHttpRequest(smileowlurl, params);
 
+            }
             return null;
         }
 
         protected void onPostExecute(String zoom) {
             pDialog.dismiss();
 
-            DaycareDetail.this.runOnUiThread(new Runnable() {
-                public void run() {
+            if (mess.length()>1) {
+                DaycareDetail.this.runOnUiThread(new Runnable() {
+                    public void run() {
 
-                    Toast.makeText(getApplicationContext(), "message sent", Toast.LENGTH_LONG).show();
-                    finish();
+                        Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_LONG).show();
+                        finish();
 
 
-                }
-            });
+                    }
+                });
+            }else{
+                Toast.makeText(getApplicationContext(), "You didn't write anything", Toast.LENGTH_LONG).show();
+
+            }
         }
     }
     class GetDaDogs extends AsyncTask<String, String, String>{

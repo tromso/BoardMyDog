@@ -28,9 +28,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by k on 3/13/15.
@@ -363,9 +368,21 @@ public class Messagethread extends Activity {
 
                 }
             });
+            DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            inputFormatter1.setTimeZone(TimeZone.getTimeZone("PST"));
+            Date date1 = null;
+            try {
+                date1 = inputFormatter1.parse(movies.get(position).get("datesent"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            DateFormat outputFormatter1 = new SimpleDateFormat("hh:mm a MMM d yyyy");
+            String output1 = outputFormatter1.format(date1);
+
             TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
             //txtPoster.setPadding(10, 0, 0, 0);
-            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
+            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + output1);
 
 
             TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);

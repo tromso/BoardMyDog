@@ -23,9 +23,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by k on 2/18/15.
@@ -285,8 +291,26 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
                     for (int i = 0; i < eventmap.size(); i++) {
 
-                        textView3.append(eventmap.get(i).get("dog0")+" From "+ eventmap.get(i).get("startdate")
-                                + " to "+eventmap.get(i).get("enddate") + "\n");
+
+                        DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date1 = null;
+                        Date date2 = null;
+                        try {
+                            date1 = inputFormatter1.parse(eventmap.get(i).get("startdate"));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            date2 = inputFormatter1.parse(eventmap.get(i).get("enddate"));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        DateFormat outputFormatter1 = new SimpleDateFormat("MMM d yyyy");
+                        String output1 = outputFormatter1.format(date1);
+                        String output2 = outputFormatter1.format(date2);
+                        textView3.append(eventmap.get(i).get("dog0")+" From "+ output1
+                                + " to "+output2 + "\n");
 
                     }
 
@@ -513,6 +537,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             }
             //colimage
             ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
+            ImageView imageView2 = (ImageView) convertView.findViewById(R.id.image2);
 
 
             if (movies.get(position).get("filename").length()>6){
@@ -536,20 +561,39 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
                 }
             });
+
+            DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
+            inputFormatter1.setTimeZone(TimeZone.getTimeZone("PST"));
+            Date date1 = null;
+            try {
+                date1 = inputFormatter1.parse(movies.get(position).get("datesent"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            DateFormat outputFormatter1 = new SimpleDateFormat("hh:mm a MMM d yyyy");
+           // outputFormatter1.setTimeZone(TimeZone.getTimeZone("PST"));
+
+            String output1 = outputFormatter1.format(date1);
+
             TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
             //txtPoster.setPadding(10, 0, 0, 0);
-            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + movies.get(position).get("datesent"));
+            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + output1);
 
 
             TextView messagedisplayed = (TextView) convertView.findViewById(R.id.textView4);
-            if (movies.get(position).get("message")!="New picture"){
-                messagedisplayed.setVisibility(View.VISIBLE);
-                messagedisplayed.setText( movies.get(position).get("message"));
-            }else{
+
+            if (movies.get(position).get("filename").length()>6){
                 messagedisplayed.setVisibility(View.GONE);
+             //   imageView2.setVisibility(View.VISIBLE);
+
+
+            }else{
+               // imageView2.setVisibility(View.GONE);
+
+                messagedisplayed.setVisibility(View.VISIBLE);
             }
-
-
+            messagedisplayed.setText( movies.get(position).get("message"));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

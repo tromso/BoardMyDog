@@ -23,7 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -228,15 +232,30 @@ public class Event extends Activity {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(context).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + movies.get(position).get("filename")).into(imageView);
 
-            TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
-            //txtPoster.setPadding(10, 0, 0, 0);
-            txtPoster.setText( "");
 
+
+            DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = null;
+            Date date2 = null;
+            try {
+                date1 = inputFormatter1.parse(movies.get(position).get("startdate"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                date2 = inputFormatter1.parse(movies.get(position).get("enddate"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            DateFormat outputFormatter1 = new SimpleDateFormat("MMM d yyyy");
+            String output1 = outputFormatter1.format(date1);
+            String output2 = outputFormatter1.format(date2);
 
             TextView txtGenre = (TextView) convertView.findViewById(R.id.textView4);
             //txtGenre.setPadding(10, 0, 0, 0);
             txtGenre.setText( movies.get(position).get("dog") +" " + movies.get(position).get("breed") +
-            "\n"+ "From " +movies.get(position).get("startdate") + " to " + movies.get(position).get("enddate"));
+            "\n"+ "From " +output1 + " to " +output2 );
 
 
 
