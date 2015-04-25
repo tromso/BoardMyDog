@@ -83,7 +83,7 @@ public class GcmIntentService extends IntentService {
 
     private void sendNotification(Context context, String mes) {
 
-        int icon = R.drawable.ic_launcher;
+        int icon = R.drawable.woof7;
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -109,7 +109,7 @@ public class GcmIntentService extends IntentService {
         notification.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.alert);
 
         // Vibrate if vibrate is enabled
-        notification.defaults |= Notification.DEFAULT_VIBRATE;
+       // notification.defaults |= Notification.DEFAULT_VIBRATE;
         notificationManager.notify(0, notification);
 
         /*

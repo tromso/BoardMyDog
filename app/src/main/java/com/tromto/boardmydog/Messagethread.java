@@ -354,7 +354,7 @@ public class Messagethread extends Activity {
             }
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             Picasso.with(context).load("http://smileowl.com/Boardmydog/Uploads/Uploads/" + movies.get(position).get("filename")).into(imageView);
-
+/*
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -368,6 +368,7 @@ public class Messagethread extends Activity {
 
                 }
             });
+            */
             DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             inputFormatter1.setTimeZone(TimeZone.getTimeZone("PST"));
             Date date1 = null;
@@ -389,16 +390,18 @@ public class Messagethread extends Activity {
             //txtGenre.setPadding(10, 0, 0, 0);
             txtGenre.setText( movies.get(position).get("message"));
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            if (movies.get(position).get("filename").length()>6) {
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                    Intent i5 = new Intent(getApplicationContext(), BigPicture.class);
-                    i5.putExtra("filename",  movies.get(position).get("filename"));
-                    startActivityForResult(i5,100);
+                        Intent i5 = new Intent(getApplicationContext(), BigPicture.class);
+                        i5.putExtra("filename", movies.get(position).get("filename"));
+                        startActivityForResult(i5, 100);
 
-                }
-            });
+                    }
+                });
+            }
 
             return convertView;
         }

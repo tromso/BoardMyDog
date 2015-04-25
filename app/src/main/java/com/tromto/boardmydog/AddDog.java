@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -93,7 +94,12 @@ public class AddDog extends Activity {
             @Override
             public void onClick(View view) {
 
-                new AddDaDog().execute();
+                String dogname = editText1.getText().toString();
+                if(dogname.length()>2){
+                    new AddDaDog().execute();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Fill in the fields",Toast.LENGTH_LONG).show();
+                }
             }
         });
 

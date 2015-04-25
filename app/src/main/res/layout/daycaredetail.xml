@@ -22,6 +22,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName|textCapSentences"
             android:id="@+id/edittext2"/>
         <Button
             android:id="@+id/message"
