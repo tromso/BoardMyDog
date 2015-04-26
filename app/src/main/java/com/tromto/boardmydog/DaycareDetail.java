@@ -340,6 +340,7 @@ public class DaycareDetail extends Activity implements AdapterView.OnItemSelecte
                 });
             }else{
                 Toast.makeText(getApplicationContext(), "You didn't write anything", Toast.LENGTH_LONG).show();
+                finish();
 
             }
         }

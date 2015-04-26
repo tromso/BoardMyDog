@@ -1,12 +1,13 @@
 package com.tromto.boardmydog;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +61,8 @@ public class Messagethread extends Activity {
     private ImageAdapter mAdapter;
     ListView lstView1;
 
+    UserFunctions userFunctions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,9 @@ public class Messagethread extends Activity {
 
         Button message = (Button) findViewById(R.id.button1);
         edittext1 = (EditText)findViewById(R.id.edittext1);
+
+        userFunctions = new UserFunctions();
+
         message.setOnClickListener(new View.OnClickListener() {
             private boolean handledClick = false;
             @Override
@@ -142,14 +148,47 @@ public class Messagethread extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()){
+            case R.id.action_settings:
+                userFunctions.logoutUser(getApplicationContext());
+                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(login);
+                //Log.v("ding","dong");
+                //Toast.makeText(getApplicationContext(), "A your account", Toast.LENGTH_LONG);
+                return true;
+            case R.id.action_deleteaccount:
+                //Toast.makeText(getApplicationContext(), "Deleted your account", Toast.LENGTH_LONG);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Delete entry")
+                        .setMessage("Are you sure you want to delete your account? This deletes all " +
+                                "the information about the dogs and your messages.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                                Intent i = new Intent(getApplicationContext(), Deletedaycareuser.class);
+
+                                i.putExtra("email", email);
+                                startActivity(i);
+                                //Log.v("fuck","cock");
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
     class GetDaThread extends AsyncTask<String, String, String>
 
@@ -176,7 +215,7 @@ public class Messagethread extends Activity {
                 success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-                    Log.v("Debig", "hello" + success);
+                   // Log.v("Debig", "hello" + success);
 
 
                     jArray3 = json.getJSONArray("messages");
@@ -305,6 +344,7 @@ public class Messagethread extends Activity {
             }else{
 
                 Toast.makeText(getApplicationContext(), "You didn't write anything", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }

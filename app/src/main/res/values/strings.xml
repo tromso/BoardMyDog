@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BoardMyDog</string>
+    <string name="app_name">Dog Boarding and Dog Sitters</string>
     <string name="title_section1">Day care</string>
     <string name="title_section2">Dog sitter</string>
     <string name="title_section3">You</string>

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +61,9 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
     ImageView imageView2, imageView3, imageView4, imageView5;
 
+    private Handler handler = new Handler();
+    private TaskCanceler taskCanceler;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +80,14 @@ public class YouFragment extends Fragment implements View.OnClickListener {
         eventmap = new ArrayList<HashMap<String, String>>();
         messagemap = new ArrayList<HashMap<String, String>>();
 
-        new GetDaDogs().execute();
+        GetDaDogs task = new GetDaDogs();
+        taskCanceler = new TaskCanceler(task);
+        handler.postDelayed(taskCanceler, 200*1000);
+        task.execute();
+        //new GetDaDogs().execute();
+        if(taskCanceler != null && handler != null) {
+            handler.removeCallbacks(taskCanceler);
+        }
 
        // textView2 = (TextView)rootView.findViewById(R.id.textView2);
         textView3 = (TextView)rootView.findViewById(R.id.textView3);
@@ -261,7 +271,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                     daycareaddress = c.getString("daycareaddress");
                     daycaredescription = c.getString("daycaredescription");
                     daycarefilename = c.getString("daycarefilename");
-                    Log.v(TAG, "hello" + daycareaddress + daycaredescription);
+                    //Log.v(TAG, "hello" + daycareaddress + daycaredescription);
 
             }
         } catch(JSONException e) {
@@ -284,6 +294,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
                 } else {
                     //owner
+                    textView4.setVisibility(View.VISIBLE);
                     textView4.setText("Latest reservations: ");
                     button3.setVisibility(View.VISIBLE);
                     textView3.setVisibility(View.VISIBLE);
@@ -310,7 +321,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                         String output1 = outputFormatter1.format(date1);
                         String output2 = outputFormatter1.format(date2);
                         textView3.append(eventmap.get(i).get("dog0")+" From "+ output1
-                                + " to "+output2 + "\n");
+                                + " to "+output2+"\n");
 
                     }
 
@@ -349,8 +360,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
 
                             if (i==0 ) {
-                                imageView2.getLayoutParams().height = 120;
-                                imageView2.getLayoutParams().width = 120;
+                                imageView2.getLayoutParams().height = 150;
+                                imageView2.getLayoutParams().width = 150;
                                 imageView2.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView6.setText(dogshashmap.get(0).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(0).get("dogfilename")).into(imageView2);
@@ -382,8 +393,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 });
                             }
                             if (i==1) {
-                                imageView3.getLayoutParams().height = 120;
-                                imageView3.getLayoutParams().width = 120;
+                                imageView3.getLayoutParams().height = 150;
+                                imageView3.getLayoutParams().width = 150;
                                 imageView3.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView7.setText(dogshashmap.get(1).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(1).get("dogfilename")).into(imageView3);
@@ -415,8 +426,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 });
                             }
                             if (i==2) {
-                                imageView4.getLayoutParams().height = 120;
-                                imageView4.getLayoutParams().width = 120;
+                                imageView4.getLayoutParams().height = 150;
+                                imageView4.getLayoutParams().width = 150;
                                 imageView4.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView8.setText(dogshashmap.get(2).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(2).get("dogfilename")).into(imageView4);
@@ -448,8 +459,8 @@ public class YouFragment extends Fragment implements View.OnClickListener {
                                 });
                             }
                             if (i==3) {
-                                imageView5.getLayoutParams().height = 120;
-                                imageView5.getLayoutParams().width = 120;
+                                imageView5.getLayoutParams().height = 150;
+                                imageView5.getLayoutParams().width = 150;
                                 imageView5.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 textView9.setText(dogshashmap.get(3).get("dogname"));
                                 Picasso.with(getActivity()).load("http://smileowl.com/Boardmydog/Dogprofilepicture/Uploads/" + dogshashmap.get(3).get("dogfilename")).into(imageView5);
@@ -537,7 +548,6 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             }
             //colimage
             ImageView imageView = (ImageView) convertView.findViewById(R.id.image1);
-            ImageView imageView2 = (ImageView) convertView.findViewById(R.id.image2);
 
 
             if (movies.get(position).get("filename").length()>6){
@@ -578,7 +588,7 @@ public class YouFragment extends Fragment implements View.OnClickListener {
 
             TextView txtPoster = (TextView) convertView.findViewById(R.id.textView2);
             //txtPoster.setPadding(10, 0, 0, 0);
-            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail") + " on " + output1);
+            txtPoster.setText( "Sent by: " + movies.get(position).get("senderemail")+"\n" + output1);
 
 
             TextView messagedisplayed = (TextView) convertView.findViewById(R.id.textView4);
@@ -608,6 +618,19 @@ public class YouFragment extends Fragment implements View.OnClickListener {
             });
 
             return convertView;
+        }
+    }
+    public class TaskCanceler implements Runnable{
+        private AsyncTask task;
+
+        public TaskCanceler(AsyncTask task) {
+            this.task = task;
+        }
+
+        @Override
+        public void run() {
+            if (task.getStatus() == AsyncTask.Status.RUNNING )
+                task.cancel(true);
         }
     }
 
